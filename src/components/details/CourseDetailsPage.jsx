@@ -11,7 +11,7 @@ import NewsletterComponent from "./NewsletterComponent";
 
 const CourseDetailsPage = ({ courses }) => {
   const { id } = useParams();
-  const navigate = useNavigate(); // ⬅️ هنا
+  const navigate = useNavigate();
 
   const course = courses.find((c) => c.id === parseInt(id));
 
