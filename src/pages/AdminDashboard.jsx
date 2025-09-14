@@ -14,12 +14,15 @@ export default function AdminDashboard() {
     description: "",
     category: "Programming",
     price: "",
+    tag: "Free",
     imageUrl: "",
+    videoUrl: "",
   });
   const [editingId, setEditingId] = useState(null);
   const [lastDoc, setLastDoc] = useState(null);
 
   const categories = ["Programming", "Design", "Business", "Marketing"];
+  const tags = ["Free", "Paid"];
 
   // Fetch courses
   const fetchCourses = async (reset = false) => {
@@ -63,8 +66,10 @@ export default function AdminDashboard() {
         title: "",
         description: "",
         category: "Programming",
+        tag: "Free",
         price: "",
         imageUrl: "",
+        videoUrl: "",
       });
       setEditingId(null);
       fetchCourses(true);
@@ -92,8 +97,10 @@ export default function AdminDashboard() {
       title: course.title,
       description: course.description,
       category: course.category,
+      tag: course.tag,
       price: course.price || "",
       imageUrl: course.imageUrl || "",
+      videoUrl: course.videoUrl || "",
     });
     setEditingId(course.id);
   };
@@ -150,6 +157,20 @@ export default function AdminDashboard() {
           </select>
         </div>
 
+        {/* Tags */}
+        <div className="mb-4">
+          <label className="block mb-1 font-medium">Tag</label>
+          <select
+            className="w-full border rounded px-3 py-2"
+            value={form.tag}
+            onChange={(e) => setForm({ ...form, tag: e.target.value })}
+          >
+            {tags.map((tag) => (
+              <option key={tag}>{tag}</option>
+            ))}
+          </select>
+        </div>
+
         {/* Price */}
         <div className="mb-4">
           <label className="block mb-1 font-medium">Price</label>
@@ -173,6 +194,17 @@ export default function AdminDashboard() {
           />
         </div>
 
+        {/* Video URL */}
+        <div className="mb-4">
+          <label className="block mb-1 font-medium">Video URL</label>
+          <input
+            type="url"
+            className="w-full border rounded px-3 py-2"
+            value={form.videoUrl}
+            onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
+          />
+        </div>
+
         <button
           type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
@@ -193,8 +225,10 @@ export default function AdminDashboard() {
                 <th className="p-2 border">Title</th>
                 <th className="p-2 border">Description</th>
                 <th className="p-2 border">Category</th>
+                <th className="p-2 border">Tag</th>
                 <th className="p-2 border">Price</th>
                 <th className="p-2 border">Image</th>
+                <th className="p-2 border">Video</th>
                 <th className="p-2 border">Actions</th>
               </tr>
             </thead>
@@ -204,11 +238,23 @@ export default function AdminDashboard() {
                   <td className="p-2 border">{course.title}</td>
                   <td className="p-2 border">{course.description}</td>
                   <td className="p-2 border">{course.category}</td>
+                  <td className="p-2 border">{course.tag}</td>
                   <td className="p-2 border">${course.price}</td>
                   <td className="p-2 border">
                     {course.imageUrl ? (
                       <img
                         src={course.imageUrl}
+                        alt={course.title}
+                        className="h-12 w-12 object-cover rounded"
+                      />
+                    ) : (
+                      "N/A"
+                    )}
+                  </td>
+                  <td className="p-2 border">
+                    {course.videoUrl ? (
+                      <img
+                        src={course.videoUrl}
                         alt={course.title}
                         className="h-12 w-12 object-cover rounded"
                       />
