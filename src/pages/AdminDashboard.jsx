@@ -15,6 +15,9 @@ export default function AdminDashboard() {
     category: "Programming",
     price: "",
     tag: "Free",
+    instructor: "",
+    bio: "",
+    email: "",
     imageUrl: "",
     videoUrl: "",
   });
@@ -68,6 +71,9 @@ export default function AdminDashboard() {
         category: "Programming",
         tag: "Free",
         price: "",
+        instructor: "",
+        bio: "",
+        email: "",
         imageUrl: "",
         videoUrl: "",
       });
@@ -99,6 +105,9 @@ export default function AdminDashboard() {
       category: course.category,
       tag: course.tag,
       price: course.price || "",
+      instructor: course.instructor,
+      bio: course.bio,
+      email: course.email,
       imageUrl: course.imageUrl || "",
       videoUrl: course.videoUrl || "",
     });
@@ -183,6 +192,41 @@ export default function AdminDashboard() {
           />
         </div>
 
+        {/* Instructor */}
+        <div className="mb-4">
+          <label className="block mb-1 font-medium">Instructor</label>
+          <input
+            type="text"
+            className="w-full border rounded px-3 py-2"
+            value={form.instructor}
+            onChange={(e) => setForm({ ...form, instructor: e.target.value })}
+            required
+          />
+        </div>
+
+        {/* Bio */}
+        <div className="mb-4">
+          <label className="block mb-1 font-medium">Bio</label>
+          <textarea
+            className="w-full border rounded px-3 py-2"
+            value={form.bio}
+            onChange={(e) => setForm({ ...form, bio: e.target.value })}
+            required
+          ></textarea>
+        </div>
+
+        {/* Email */}
+        <div className="mb-4">
+          <label className="block mb-1 font-medium">Email</label>
+          <input
+            type="email"
+            className="w-full border rounded px-3 py-2"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            required
+          />
+        </div>
+
         {/* Image URL */}
         <div className="mb-4">
           <label className="block mb-1 font-medium">Image URL</label>
@@ -227,6 +271,9 @@ export default function AdminDashboard() {
                 <th className="p-2 border">Category</th>
                 <th className="p-2 border">Tag</th>
                 <th className="p-2 border">Price</th>
+                <th className="p-2 border">Instructor</th>
+                <th className="p-2 border">Bio</th>
+                <th className="p-2 border">Email</th>
                 <th className="p-2 border">Image</th>
                 <th className="p-2 border">Video</th>
                 <th className="p-2 border">Actions</th>
@@ -240,6 +287,9 @@ export default function AdminDashboard() {
                   <td className="p-2 border">{course.category}</td>
                   <td className="p-2 border">{course.tag}</td>
                   <td className="p-2 border">${course.price}</td>
+                  <td className="p-2 border">{course.instructor}</td>
+                  <td className="p-2 border">{course.bio}</td>
+                  <td className="p-2 border">{course.email}</td>
                   <td className="p-2 border">
                     {course.imageUrl ? (
                       <img
@@ -265,7 +315,7 @@ export default function AdminDashboard() {
                   <td className="p-2 border">
                     <button
                       onClick={() => handleEdit(course)}
-                      className="bg-yellow-500 text-white px-3 py-1 rounded mr-2 hover:bg-yellow-600"
+                      className="bg-yellow-500 text-white px-3 py-1 rounded mr-2 mb-2 hover:bg-yellow-600"
                     >
                       Edit
                     </button>
