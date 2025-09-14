@@ -2,19 +2,18 @@ export default function Button({
   text, 
   variant = "primary", 
   shape = "pill",   // pill | square | rounded
-  size = "md"       // sm | md | lg | xl
+  size = "md",      // sm | md | lg | xl
+  onClick          
 }) {
   const baseClasses =
-    "font-semibold transition duration-200 transform focus:outline-none hover:shadow-lg hover:scale-105";
+    "font-semibold transition duration-200 transform focus:outline-none";
 
-  // 
   const shapes = {
     pill: "rounded-full",
     square: "rounded-md",
     rounded: "rounded-lg",
   };
 
-  // 
   const sizes = {
     sm: "px-2 py-1 text-sm",
     md: "px-4 py-2 text-base",
@@ -22,8 +21,12 @@ export default function Button({
     xl: "px-8 py-4 text-xl",
   };
 
-  //  Variants 
   const variants = {
+      blackText: `
+    bg-white text-black border border-gray-300 
+    hover:bg-gradient-to-r hover:from-[#FFC000] hover:to-[#FF8A00] 
+    hover:text-white hover:border-transparent
+  `, // زرار أبيض بنص أسود
     primary: "bg-orange-500 text-white hover:bg-orange-600",
     secondary: "bg-gray-200 text-gray-700 hover:bg-gray-300",
     white: "bg-white text-orange-500 border border-orange-500 hover:bg-orange-500 hover:text-white",
@@ -34,6 +37,8 @@ export default function Button({
     gradientPurple: "bg-gradient-to-r from-purple-600 to-purple-400 text-white hover:from-purple-700 hover:to-purple-500",
     gradientPink: "bg-gradient-to-r from-pink-600 to-pink-400 text-white hover:from-pink-700 hover:to-pink-500",
     gradientRainbow: "bg-gradient-to-r from-red-400 via-yellow-400 via-green-400 via-blue-400 to-purple-400 text-white hover:from-red-500 hover:via-yellow-500 hover:via-green-500 hover:via-blue-500 hover:to-purple-500",
+    
+    gradientYellowOrange: "bg-gradient-to-r from-[#FFC000] to-[#FF8A00] text-white hover:from-[#FFB000] hover:to-[#FF9000]",
 
     red: "bg-red-500 text-white hover:bg-red-600",
     redOutline: "bg-transparent text-red-500 border border-red-500 hover:bg-red-500 hover:text-white",
@@ -52,22 +57,21 @@ export default function Button({
     purple: "bg-purple-500 text-white hover:bg-purple-600",
     purpleOutline: "bg-transparent text-purple-500 border border-purple-500 hover:bg-purple-500 hover:text-white",
 
-  whiteToGradient: `
-  bg-white text-[#FF8A00] border border-[#FF8A00] 
-  hover:bg-gradient-to-r hover:from-[#FFC000] hover:to-[#FF8A00] 
-  hover:text-white hover:border-transparent
-`,
+    whiteToGradient: `
+      bg-white text-[#FF8A00] border border-[#FF8A00] 
+      hover:bg-gradient-to-r hover:from-[#FFC000] hover:to-[#FF8A00] 
+      hover:text-white hover:border-transparent
+    `,
 
-    fullOrange:
-      "bg-orange-400 text-white rounded hover:bg-orange-500 transition-colors w-full sm:w-auto text-base md:text-lg",
+    fullOrange: "bg-orange-400 text-white rounded hover:bg-orange-500 transition-colors w-full sm:w-auto text-base md:text-lg",
   };
 
   return (
     <button
       className={`${baseClasses} ${shapes[shape]} ${sizes[size]} ${variants[variant]}`}
+      onClick={onClick}  
     >
       {text}
     </button>
   );
 }
- //  <Button text="xxxx" variant="primary" shape="pill" size="md" /> ex

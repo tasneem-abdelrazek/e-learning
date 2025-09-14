@@ -1,11 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "../button/button"; 
 
 const RandoumCourses = ({ courses }) => {
+  const navigate = useNavigate();
+
   if (!courses || courses.length === 0) {
     return <p className="text-gray-500">No courses available right now.</p>;
   }
 
-  // Display 5 random courses
   const randomCourses = courses.sort(() => 0.5 - Math.random()).slice(0, 5);
 
   return (
@@ -15,7 +18,6 @@ const RandoumCourses = ({ courses }) => {
           key={course.id}
           className="border border-gray-300 rounded-lg shadow-md p-4 hover:shadow-lg transition"
         >
-          
           {course.imageUrl ? (
             <img
               src={course.imageUrl}
@@ -28,21 +30,20 @@ const RandoumCourses = ({ courses }) => {
             </div>
           )}
 
-   
           <h3 className="text-lg font-bold mb-2">{course.title}</h3>
 
-      
           <p className="text-sm text-gray-600 mb-3">
             {course.description || "No description available."}
           </p>
 
-    
-          <a
-            href={`/details/${course.id}`}
-            className="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
-          >
-            View Details
-          </a>
+          <Button
+            text="View Details"
+            variant="gradientYellowOrange"
+            shape="rounded"
+            size="md"
+            className="w-full"
+            onClick={() => navigate(`/details/${course.id}`)}
+          />
         </div>
       ))}
     </div>

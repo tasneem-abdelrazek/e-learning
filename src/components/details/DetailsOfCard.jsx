@@ -1,7 +1,10 @@
 import React from "react";
 import Button from "../button/button";
 
-const DetailsOfCard = ({
+
+
+
+const DetailsOfCard = ({ 
   title,
   description,
   category,
@@ -9,6 +12,8 @@ const DetailsOfCard = ({
   buttonText = "Read More",
   className = "",
 }) => {
+
+
   return (
     <div
       className={`bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-transform transform hover:scale-105 max-w-2xl mx-auto overflow-hidden ${className}`}

@@ -1,11 +1,26 @@
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { useState } from "react";
+import Button from "./button"; 
 
-const HeartButton = ({ liked, onToggle, size = 24 }) => {
+export default function FavoriteButton() {
+  const [liked, setLiked] = useState(false);
+
+  const color = liked ? "red" : "black";
+
   return (
-    <button onClick={() => onToggle(!liked)}>
-      {liked ? <FaHeart size={size} color="red" /> : <FaRegHeart size={size} color="red" />}
-    </button>
+    <Button
+      text={
+        <span className="flex items-center gap-2" style={{ color }}>
+          <i
+            className="ri-heart-add-fill"
+            style={{ fontSize: "18px", color }}
+          ></i>
+          {liked ? "Added" : " Favorite"}
+        </span>
+      }
+      variant="whiteToGradient"
+      shape="rounded"
+      size="md"
+      onClick={() => setLiked(!liked)}
+    />
   );
-};
-
-export default HeartButton;
+}

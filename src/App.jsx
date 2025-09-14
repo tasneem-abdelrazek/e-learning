@@ -10,22 +10,19 @@ import Home from "./pages/home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
+
+import Courses from "./pages/Courses";
+import CourseDetails from "./pages/CourseDetails";
+import Favorites from "./pages/Favorites";
+import Wishlist from "./pages/Wishlist";
+import Dashboard from "./pages/Dashboard";
+
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-// import Courses from "./pages/Courses";
-// import CourseDetails from "./pages/CourseDetails";
-// import Favorites from "./pages/Favorites";
-// import Wishlist from "./pages/wishlist";
-// import Dashboard from "./pages/Dashboard";
 
 import "./App.css";
 
-
-
-
-
 function App() {
-
   const user = useSelector((state) => state.auth.currentUser);
   const isAdmin = user?.role === "admin";
   const dispatch = useDispatch();
@@ -55,31 +52,42 @@ function App() {
   }
 
   return (
+    <div className="mx-auto px-4">
     <Router>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/courses" element={<Courses />} />
+
+        {/* Main Pages */}
+        <Route path="/courses" element={<Courses />} />
         <Route path="/details/:id" element={<CourseDetails />} />
-        <Route path="/favorites" element={user ? <Favorites /> : <Navigate to="/login" replace />} />
-        <Route path="/wishlist" element={user ? <Wishlist /> : <Navigate to="/login" replace />} />
-        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" replace />} /> */}
-        
+        <Route
+          path="/favorites"
+          element={user ? <Favorites /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/wishlist"
+          element={user ? <Wishlist /> : <Navigate to="/login" replace />}
+        />
+        <Route
+          path="/dashboard"
+          element={user ? <Dashboard /> : <Navigate to="/login" replace />}
+        />
 
         {/* Admin Dashboard */}
         <Route
           path="/admin/dashboard"
-          element={
-            isAdmin ? <AdminDashboard /> : <Navigate to="/login" replace />
-          }
+          element={isAdmin ? <AdminDashboard /> : <Navigate to="/login" replace />}
         />
 
+        {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Footer />
     </Router>
+  </div>
   );
 }
 
