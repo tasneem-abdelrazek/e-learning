@@ -52,9 +52,10 @@ function App() {
   }
 
   return (
-    <div className="mx-auto px-4">
+    
     <Router>
       <Navbar />
+      <div className="mx-auto px-4">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
@@ -82,12 +83,15 @@ function App() {
           element={isAdmin ? <AdminDashboard /> : <Navigate to="/login" replace />}
         />
 
+        
+
         {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+        </div>
       <Footer />
     </Router>
-  </div>
+
   );
 }
 

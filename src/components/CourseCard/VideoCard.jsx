@@ -18,10 +18,12 @@ const VideoCard = ({
   const [liked, setLiked] = useState(false);
 
   return (
-    <div className="shadow-none overflow-hidden bg-transparent rounded-b-3xl">
+    <div className="overflow-hidden rounded-b-3xl
+                    transition-transform duration-300 ease-in-out
+                    hover:scale-105 shadow-lg">
       {/* Video or Image */}
       {(videoUrl || image) && (
-        <div className="relative h-52 overflow-hidden rounded-t-none rounded-b-none">
+        <div className="relative h-52 overflow-hidden rounded-t-3xl">
           {videoUrl ? (
             <iframe
               src={videoUrl}
@@ -34,7 +36,7 @@ const VideoCard = ({
             <img
               src={image}
               alt={title}
-              className="w-full h-full object-cover rounded-t-3xl rounded-b-none"
+              className="w-full h-full object-cover rounded-t-3xl"
             />
           )}
 

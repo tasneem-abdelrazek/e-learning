@@ -4,8 +4,9 @@ const VideoPlayer = ({ videoUrl, title }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <div className="max-w-3xl mx-auto p-4 rounded-lg text-center 
-                    bg-gradient-to-r from-[#FFC000] to-[#FF8A00] text-white py-16 sm:py-24">
+    <div className="max-w-3xl mx-auto my-10 p-6 rounded-lg text-center 
+                    bg-gradient-to-r from-[#FFC000] to-[#FF8A00] text-white 
+                    py-20 sm:py-28">
       {videoUrl ? (
         <iframe
           src={videoUrl}
@@ -19,12 +20,12 @@ const VideoPlayer = ({ videoUrl, title }) => {
 
       <button
         onClick={() => setIsPlaying(!isPlaying)}
-        className="mt-4 px-6 py-2 bg-white text-gray-900 font-semibold rounded hover:bg-gray-200 transition"
+        className="mt-6 px-6 py-2 bg-white text-gray-900 font-semibold rounded hover:bg-gray-200 transition"
       >
         {isPlaying ? "⏸ Pause" : "▶️ Play"}
       </button>
 
-      {title && <h3 className="text-white text-lg font-semibold mt-4">{title}</h3>}
+      {title && <h3 className="text-white text-lg font-semibold mt-6">{title}</h3>}
     </div>
   );
 };

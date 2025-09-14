@@ -3,7 +3,8 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase"; 
 import VideoCard from "../components/CourseCard/VideoCard";
 import HeroSection from "../components/HeroSection/HeroSection";  
-import Button from "../components/button/button";
+
+
 
 export default function Courses() {
   const [courses, setCourses] = useState([]);
@@ -48,25 +49,28 @@ export default function Courses() {
   }
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 mt-4 text-sm">
-      {/* Hero Section */}
-      <HeroSection
-        title="Welcome to Our Courses"
-        description="Explore a variety of courses and start learning today!"
-        buttons={[
-          { text: "Get Started", variant: "whiteToGradient", size: "md", onClick: () => console.log("Get Started clicked") },
-          { text: "Learn More", variant: "blackText", size: "md", onClick: () => console.log("Learn More clicked") },
-        ]}
-        customClasses={{
-          section: "py-10 sm:py-12",
-          title: "text-2xl sm:text-3xl md:text-4xl lg:text-4xl", 
-          description: "text-sm sm:text-base md:text-base lg:text-base mb-6", 
-          buttonsContainer: "flex flex-col sm:flex-row flex-wrap gap-3 justify-center"
-        }}
-      />
+    <div className="px-4 sm:px-6 lg:px-8">
 
-      {/* Courses Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+     
+      <div className="mt-6">
+        <HeroSection
+          title="Welcome to Our Courses"
+          description="Explore a variety of courses and start learning today!"
+          buttons={[
+            { text: "Get Started", variant: "whiteToGradient", size: "md", onClick: () => console.log("Get Started clicked") },
+            { text: "Learn More", variant: "blackText", size: "md", onClick: () => console.log("Learn More clicked") },
+          ]}
+          customClasses={{
+            section: "py-10 sm:py-12",
+            title: "text-2xl sm:text-3xl md:text-4xl lg:text-4xl", 
+            description: "text-sm sm:text-base md:text-base lg:text-base mb-6", 
+            buttonsContainer: "flex flex-col sm:flex-row flex-wrap gap-3 justify-center"
+          }}
+        />
+      </div>
+
+     
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 mb-10">
         {courses.map(course => (
           <VideoCard
             key={course.id}
@@ -75,13 +79,16 @@ export default function Courses() {
             image={course.image} 
             price={course.price}
             category={course.category}
-            bottomBg="bg-gradient-to-r from-[#FFC000] to-[#FF8A00]"
-            bottomTextColor="text-white"
-            roundedTop="rounded-t-xl"
-            roundedBottom="rounded-b-lg"
+
           />
         ))}
       </div>
+
+
+      <div className="mt-12">
+     
+      </div>
+
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+
 import HeroSection from "../components/HeroSection/HeroSection";
 import RandoumCourses from "../components/details/RandoumCourses";
 import NavigationBar from "../components/details/NavigationBar";
@@ -26,21 +27,18 @@ export default function CourseDetails() {
         // Fetch main course data
         const courseRef = doc(db, "courses", id);
         const courseSnap = await getDoc(courseRef);
-
-        if (courseSnap.exists()) {
+        if (courseSnap.exists())
           setCourse({ id: courseSnap.id, ...courseSnap.data() });
-        } else {
-          setCourse(null);
-        }
+        else setCourse(null);
 
         // Fetch all courses for "You Might Also Like"
         const coursesCol = collection(db, "courses");
         const snapshot = await getDocs(coursesCol);
-        const coursesList = snapshot.docs.map(doc => ({
+        const coursesList = snapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
-        setAllCourses(coursesList.filter(c => c.id !== id));
+        setAllCourses(coursesList.filter((c) => c.id !== id));
       } catch (error) {
         console.error("Error fetching course details:", error);
       } finally {
@@ -51,14 +49,17 @@ export default function CourseDetails() {
     fetchCourseData();
   }, [id]);
 
-  if (loading) {
-    return <p className="text-center mt-4 text-sm">Loading course details...</p>;
-  }
+  if (loading)
+    return (
+      <p className="text-center mt-4 text-sm">Loading course details...</p>
+    );
 
-  if (!course) {
+  if (!course)
     return (
       <div className="text-center py-6">
-        <h2 className="text-xl font-bold text-red-500 mb-2">Course not found!</h2>
+        <h2 className="text-xl font-bold text-red-500 mb-2">
+          Course not found!
+        </h2>
         <p className="text-sm mb-4">Course with ID {id} does not exist.</p>
         <Button
           text="Back to Courses"
@@ -68,27 +69,32 @@ export default function CourseDetails() {
         />
       </div>
     );
-  }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <HeroSection
-        title={course.title}
-        description={course.description}
+        title=""
+        description="You can either enroll for this course to gain access and also to the materials attached to it online only, or you can add to cart for checkout to view offline."
         buttons={[
           {
-            text: "Enroll Now",
+            text: "Add to Cart",
             variant: "whiteToGradient",
             size: "md",
-            onClick: () => alert(`Enrolled in ${course.title}`)
+            onClick: () => {},
+          },
+          {
+            text: "Become Prime",
+            variant:"whiteToGradient",
+            size: "md",
+            onClick: () => {},
           },
         ]}
         customClasses={{
           section: "py-6 sm:py-8",
-          title: "text-2xl sm:text-3xl md:text-3xl lg:text-3xl mb-4",
+          title: "hidden",
           description: "text-sm sm:text-base md:text-base lg:text-base mb-4",
-          buttonsContainer: "flex flex-col sm:flex-row gap-2 justify-center"
+          buttonsContainer: "flex flex-col sm:flex-row gap-2 justify-center",
         }}
       />
 
@@ -130,10 +136,10 @@ export default function CourseDetails() {
       <div className="max-w-6xl mx-auto p-4 mb-4">
         <div className="flex flex-wrap lg:flex-nowrap justify-start gap-4">
           <div className="border border-orange-500 rounded-xl p-6">
-            <InstructorCard />
+            <InstructorCard course={course} />
           </div>
           <div className="border border-orange-500 rounded-xl p-4">
-            <Description />
+            <Description course={course} />
           </div>
           <div className="border border-orange-500 rounded-xl p-4 whitespace-nowrap">
             <LessonSidebar />
@@ -161,7 +167,7 @@ export default function CourseDetails() {
           section: "py-6 sm:py-8",
           title: "text-2xl sm:text-3xl md:text-3xl lg:text-3xl mb-4",
           description: "text-sm sm:text-base md:text-base lg:text-base mb-4",
-          buttonsContainer: "flex flex-col sm:flex-row gap-2 justify-center"
+          buttonsContainer: "flex flex-col sm:flex-row gap-2 justify-center",
         }}
       />
 

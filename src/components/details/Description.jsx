@@ -1,19 +1,15 @@
 import React from "react";
 
-const Description = () => {
+const Description = ({ course }) => {
+  if (!course) return <p className="text-center mt-4">Loading course details...</p>;
+
   return (
     <div className="bg-white p-6 flex-1 max-w-lg">
-      {/* Title */}
       <h2 className="text-orange-500 text-xl font-bold mb-4 text-center">
-        Description
+        {course.title}
       </h2>
-
-      {/* Content */}
       <p className="text-gray-500 text-sm leading-relaxed text-justify">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis magnam
-        eligendi ipsum quasi, labore perferendis. Similique quaerat blanditiis
-        sint, beatae nobis, libero illo fugiat temporibus, dolore consectetur
-        perferendis facilis nulla.
+        {course.description}
       </p>
     </div>
   );

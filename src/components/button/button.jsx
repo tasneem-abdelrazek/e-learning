@@ -26,7 +26,7 @@ export default function Button({
     bg-white text-black border border-gray-300 
     hover:bg-gradient-to-r hover:from-[#FFC000] hover:to-[#FF8A00] 
     hover:text-white hover:border-transparent
-  `, // زرار أبيض بنص أسود
+  `, 
     primary: "bg-orange-500 text-white hover:bg-orange-600",
     secondary: "bg-gray-200 text-gray-700 hover:bg-gray-300",
     white: "bg-white text-orange-500 border border-orange-500 hover:bg-orange-500 hover:text-white",
