@@ -47,51 +47,61 @@ function App() {
     return () => unsubscribe();
   }, [dispatch]);
 
+  const handleLogout = () => {
+    auth.signOut();
+  };
+
   if (checkingAuth) {
-    return <p>Loading...</p>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-    
     <Router>
-      <Navbar />
-      <div className="mx-auto px-4">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-
-        {/* Main Pages */}
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/details/:id" element={<CourseDetails />} />
-        <Route
-          path="/favorites"
-          element={user ? <Favorites /> : <Navigate to="/login" replace />}
-        />
-        <Route
-          path="/wishlist"
-          element={user ? <Wishlist /> : <Navigate to="/login" replace />}
-        />
-        <Route
-          path="/dashboard"
-          element={user ? <Dashboard /> : <Navigate to="/login" replace />}
-        />
-
-        {/* Admin Dashboard */}
-        <Route
-          path="/admin/dashboard"
-          element={isAdmin ? <AdminDashboard /> : <Navigate to="/login" replace />}
-        />
-
+      <div className="min-h-screen flex flex-col">
+        <Navbar currentUser={user} onLogout={handleLogout} />
         
+        <main className="flex-grow">
+          <div className="mx-auto px-4">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
 
-        {/* Catch-all */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-        </div>
-      <Footer />
+              <Route path="/courses" element={<Courses />} />
+              <Route path="/details/:id" element={<CourseDetails />} />
+              <Route
+                path="/favorites"
+                element={user ? <Favorites /> : <Navigate to="/login" replace />}
+              />
+              <Route
+                path="/wishlist"
+                element={user ? <Wishlist /> : <Navigate to="/login" replace />}
+              />
+              <Route
+                path="/dashboard"
+                element={user ? <Dashboard /> : <Navigate to="/login" replace />}
+              />
+
+              <Route
+                path="/admin/dashboard"
+                element={isAdmin ? <AdminDashboard /> : <Navigate to="/login" replace />}
+              />
+
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </div>
+        </main>
+        
+        <Footer />
+      </div>
     </Router>
-
   );
 }
 
