@@ -52,43 +52,43 @@ function App() {
   }
 
   return (
-    
+
     <Router>
       <Navbar />
       <div className="mx-auto px-4">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
 
-        {/* Main Pages */}
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/details/:id" element={<CourseDetails />} />
-        <Route
-          path="/favorites"
-          element={user ? <Favorites /> : <Navigate to="/login" replace />}
-        />
-        <Route
-          path="/wishlist"
-          element={user ? <Wishlist /> : <Navigate to="/login" replace />}
-        />
-        <Route
-          path="/dashboard"
-          element={user ? <Dashboard /> : <Navigate to="/login" replace />}
-        />
+          {/* Main Pages */}
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/details/:id" element={<CourseDetails />} />
+          <Route
+            path="/favorites"
+            element={user ? <Favorites /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/wishlist"
+            element={user ? <Wishlist /> : <Navigate to="/login" replace />}
+          />
+          <Route
+            path="/dashboard"
+            element={user ? <Dashboard /> : <Navigate to="/login" replace />}
+          />
 
-        {/* Admin Dashboard */}
-        <Route
-          path="/admin/dashboard"
-          element={isAdmin ? <AdminDashboard /> : <Navigate to="/login" replace />}
-        />
+          {/* Admin Dashboard */}
+          <Route
+            path="/admin/dashboard"
+            element={isAdmin ? <AdminDashboard /> : <Navigate to="/login" replace />}
+          />
 
-        
 
-        {/* Catch-all */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-        </div>
+
+          {/* Catch-all */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
       <Footer />
     </Router>
 
