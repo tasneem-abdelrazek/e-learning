@@ -5,7 +5,7 @@ import Links from "./navlinks";
 import Button from "../button/button";
 import logo1 from "./El.svg";
 import LogoTitle from "./logo";
-import { clearUser } from "../../store/slices/authSlice"; 
+import { clearUser } from "../../store/slices/authSlice";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ export default function Navbar() {
               text="Logout"
               variant="redOutline"
               shape="pill"
-              onClick={handleLogout} 
+              onClick={handleLogout}
             />
           </div>
         )}
