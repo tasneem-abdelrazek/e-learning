@@ -55,6 +55,9 @@ export default function Button({
     gray: "bg-gray-500 text-white hover:bg-gray-600",
     grayOutline: "bg-transparent text-gray-500 border border-gray-500 hover:bg-gray-500 hover:text-white",
     purple: "bg-purple-500 text-white hover:bg-purple-600",
+     greenSpecial: "bg-gradient-to-r from-green-400 to-green-600 text-white hover:from-green-500 hover:to-green-700",
+  redSpecial: "bg-gradient-to-r from-red-400 to-red-600 text-white hover:from-red-500 hover:to-red-700",
+  
     purpleOutline: "bg-transparent text-purple-500 border border-purple-500 hover:bg-purple-500 hover:text-white",
 
     whiteToGradient: `
