@@ -47,14 +47,28 @@ function App() {
     return () => unsubscribe();
   }, [dispatch]);
 
+  const handleLogout = () => {
+    auth.signOut();
+  };
+
   if (checkingAuth) {
-    return <p>Loading...</p>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
-
+    
     <Router>
-      <Navbar />
+      <div className="min-h-screen flex flex-col">
+      <Navbar currentUser={user} onLogout={handleLogout} />
+
+      <main className="flex-grow">
       <div className="mx-auto px-4">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -83,15 +97,16 @@ function App() {
             element={isAdmin ? <AdminDashboard /> : <Navigate to="/login" replace />}
           />
 
+        
 
-
-          {/* Catch-all */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </div>
+        {/* Catch-all */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+        </div>
+        </main>
       <Footer />
+      </div>
     </Router>
-
   );
 }
 
