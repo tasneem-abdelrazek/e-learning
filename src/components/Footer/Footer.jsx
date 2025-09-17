@@ -6,7 +6,7 @@ import BottomBar from "./BottomBar";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-800 text-white">
+    <footer className="bg-gray-800 text-white mt-12">
 
       <div className="h-1 bg-gradient-to-r from-orange-400 to-orange-500"></div>
     

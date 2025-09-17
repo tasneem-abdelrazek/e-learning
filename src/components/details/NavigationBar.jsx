@@ -11,14 +11,14 @@ const NavigationBar = () => {
   ];
 
   return (
-    <div className="bg-gradient-to-r from-[#FFC000] to-[#FF8A00] w-full px-6 py-4">
+    <div className="bg-gradient-to-r from-orange-400 to-orange-500 w-full px-6 py-4 shadow-md">
       <nav className="flex justify-center space-x-8">
         {tabs.map((tab) => (
           <button
             key={tab.name}
             onClick={() => setActiveTab(tab.name)}
             className={`
-              relative px-4 py-2 font-medium transition-all duration-200
+              relative px-4 py-2 font-semibold transition-all duration-200
               ${
                 activeTab === tab.name
                   ? "text-white after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-[3px] after:bg-white after:rounded-full"

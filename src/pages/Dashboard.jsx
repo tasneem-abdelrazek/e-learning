@@ -67,26 +67,24 @@ const DashboardCard = ({ course = {}, onJoin, onUnjoin }) => {
             />
           </div>
         </div>
-
-        {/* Removed Continue Button */}
       </div>
 
-  
+      {/* Hover Overlay */}
       {isHovered && (
-        <div className="absolute inset-0 flex flex-col justify-center items-center transition-all duration-300 pointer-events-none">
+        <div className="absolute inset-0 flex flex-col justify-center items-center transition-all duration-300 pointer-events-none bg-white bg-opacity-10">
           <h4 className="text-xl font-bold mb-4 pointer-events-auto">{course?.title || "Untitled"}</h4>
           <p className="text-sm text-center px-4 mb-6 opacity-90 pointer-events-auto">{course?.description || ""}</p>
           <div className="flex space-x-3 pointer-events-auto">
             <Button
               text="Continue Learning"
-              variant="greenSpecial"
+              variant="gradientOrange"
               shape="rounded"
               size="md"
               onClick={() => openModal("join")}
             />
             <Button
               text="Remove"
-              variant="redSpecial"
+              variant="redOutline"
               shape="rounded"
               size="md"
               onClick={() => openModal("unjoin")}

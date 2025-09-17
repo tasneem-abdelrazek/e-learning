@@ -1,10 +1,9 @@
+// Courses.jsx
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase"; 
 import VideoCard from "../components/CourseCard/VideoCard";
 import HeroSection from "../components/HeroSection/HeroSection";  
-
-
 
 export default function Courses() {
   const [courses, setCourses] = useState([]);
@@ -51,7 +50,7 @@ export default function Courses() {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
 
-     
+      {/* Hero Section */}
       <div className="mt-6">
         <HeroSection
           title="Welcome to Our Courses"
@@ -69,8 +68,8 @@ export default function Courses() {
         />
       </div>
 
-     
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 mb-10">
+      {/* Courses Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 mb-10 auto-rows-[300px]">
         {courses.map(course => (
           <VideoCard
             key={course.id}
@@ -79,16 +78,11 @@ export default function Courses() {
             image={course.image} 
             price={course.price}
             category={course.category}
-
+            date={course.createdAt ? new Date(course.createdAt.seconds * 1000).toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" }) : "N/A"}
+            rating={4.5}
           />
         ))}
       </div>
-
-
-      <div className="mt-12">
-     
-      </div>
-
     </div>
   );
 }

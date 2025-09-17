@@ -1,3 +1,4 @@
+// DashboardCard.jsx
 import React, { useState } from "react";
 import { Play, BookOpen } from "lucide-react";
 import Button from "../button/button";
@@ -19,7 +20,6 @@ const DashboardCard = ({ course = {}, onJoin, onUnjoin }) => {
     setModalOpen(false);
   };
 
-
   const dummyCourse = {
     id: 1,
     title: course.title || "React Basics",
@@ -34,7 +34,6 @@ const DashboardCard = ({ course = {}, onJoin, onUnjoin }) => {
 
   return (
     <div className="flex flex-col items-center gap-2 max-w-sm w-full">
-  
       <div
         className="relative bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 w-full"
         onMouseEnter={() => setIsHovered(true)}
@@ -94,14 +93,14 @@ const DashboardCard = ({ course = {}, onJoin, onUnjoin }) => {
             <div className="flex space-x-3">
               <Button
                 text="Continue Learning"
-                variant="greenSpecial"
+                variant="gradientOrange"
                 shape="rounded"
                 size="md"
                 onClick={() => openModal("join")}
               />
               <Button
                 text="Remove"
-                variant="redSpecial"
+                variant="redOutline"
                 shape="rounded"
                 size="md"
                 onClick={() => openModal("unjoin")}
@@ -119,11 +118,11 @@ const DashboardCard = ({ course = {}, onJoin, onUnjoin }) => {
         />
       </div>
 
-     
+      {/* Details Button */}
       <Button
         text="Details"
-        variant="blackText"
-        shape="square"
+        variant="gradientOrange"
+        shape="rounded"
         size="md"
         onClick={() => console.log("Details clicked")}
       />
