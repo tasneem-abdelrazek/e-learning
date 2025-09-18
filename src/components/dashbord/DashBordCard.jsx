@@ -7,6 +7,7 @@ const DashboardCard = ({ course = {}, onJoin, onUnjoin }) => {
   const [modal, setModal] = useState({ open: false, type: "" });
 
   const handleAction = (type) => setModal({ open: true, type });
+
   const confirmAction = () => {
     if (course.id) {
       modal.type === "join" && onJoin?.(course.id);
