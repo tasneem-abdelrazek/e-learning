@@ -2,30 +2,29 @@ import { Link } from "react-router-dom";
 import { User, Heart, BookmarkPlus, BookOpen, LogOut, X } from "lucide-react";
 
 const UserSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {
-  const menuItems = [
-     { id: 2, name: " Courses", icon: BookOpen, path: "/courses", color: "text-green-800", hover: "hover:bg-green-100" },
-    { id: 1, name: "Dashboard", icon: User, path: "/dashboard", color: "text-blue-800", hover: "hover:bg-blue-100" },
-       { id: 3, name: "Favorites", icon: Heart, path: "/favorites", color: "text-red-700", hover: "hover:bg-red-100" },
-    { id: 4, name: "Wishlist", icon: BookmarkPlus, path: "/wishlist", color: "text-purple-800", hover: "hover:bg-purple-100" },
-  ];
+
+  let menuItems = [];
 
   if (currentUser?.role === "admin") {
-    menuItems.push({
-      id: 5,
-      name: "Admin Dashboard",
-      icon: User,
-      path: "/admin/dashboard",
-      color: "text-yellow-800",
-      hover: "hover:bg-yellow-100",
-    });
+
+    menuItems = [
+      { id: 2, name: "Courses", icon: BookOpen, path: "/courses", color: "text-green-800", hover: "hover:bg-green-100" },
+      { id: 5, name: "Admin Dashboard", icon: User, path: "/admin/dashboard", color: "text-yellow-800", hover: "hover:bg-yellow-100" },
+    ];
+  } else {
+
+    menuItems = [
+      { id: 1, name: "Dashboard", icon: User, path: "/dashboard", color: "text-blue-800", hover: "hover:bg-blue-100" },
+      { id: 2, name: "Courses", icon: BookOpen, path: "/courses", color: "text-green-800", hover: "hover:bg-green-100" },
+      { id: 3, name: "Favorites", icon: Heart, path: "/favorites", color: "text-red-700", hover: "hover:bg-red-100" },
+      { id: 4, name: "Wishlist", icon: BookmarkPlus, path: "/wishlist", color: "text-purple-800", hover: "hover:bg-purple-100" },
+    ];
   }
 
   return (
     <>
       <div
-        className={`fixed inset-0 z-40 bg-black transition-opacity duration-300 ${
-          isOpen ? "opacity-30 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed inset-0 z-40 bg-black transition-opacity duration-300 ${isOpen ? "opacity-30 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
         onClick={onClose}
       />
 

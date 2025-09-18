@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import DashboardCard from "../components/dashbord/DashBordCard";
 
-
 const Dashboard = () => {
-
   const [courses, setCourses] = useState([
     {
       id: "1",
@@ -30,10 +28,9 @@ const Dashboard = () => {
     },
   ]);
 
-
   const handleJoin = (courseId) => {
     console.log("Joined course:", courseId);
-  
+
     setCourses((prev) =>
       prev.map((c) =>
         c.id === courseId ? { ...c, progress: Math.min(c.progress + 10, 100) } : c
@@ -42,9 +39,9 @@ const Dashboard = () => {
   };
 
   const handleUnjoin = (courseId) => {
-    console.log("Unjoined course:", courseId);
+    console.log("Removed course:", courseId);
 
-    setCourses((prev) => prev.map((c) => (c.id === courseId ? { ...c, progress: 0 } : c)));
+    setCourses((prev) => prev.filter((c) => c.id !== courseId));
   };
 
   return (
