@@ -1,7 +1,11 @@
 import Button from "../button/button";
 import BG_image2 from '../../assets/Isolated Image Icon.png'
 
-const HeroSection = ({ title, description, buttons = [], height }) => {
+export default function HeroSection({
+  title = "Your Hero Title Here",
+  description = "Your description goes here.",
+  buttons = [] 
+}) {
   return (
     <section className="flex bg-gradient-to-r from-[#FF8A00] to-[#FFC000] text-white p-6 sm:p-10 lg:p-20 leading-loose" style={{height}}>
         <div className='w-1/2'>
@@ -33,6 +37,4 @@ const HeroSection = ({ title, description, buttons = [], height }) => {
     </section>
 
   );
-};
-
-export default HeroSection;
+}
