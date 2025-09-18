@@ -1,32 +1,28 @@
-import React from 'react';
-import Button from '../button/button';
+import React from "react";
+import Button from "../button/button";
 
-const HeroSection = () => {
+export default function HeroSection({
+  title = "Your Hero Title Here",
+  description = "Your description goes here.",
+  buttons = [] 
+}) {
   return (
-    <div className="bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 text-white relative overflow-hidden">
-      {/* Decorative circles */}
-      <div className="absolute top-10 right-10 w-8 h-8 bg-white opacity-20 rounded-full"></div>
-      <div className="absolute top-20 right-32 w-4 h-4 bg-white opacity-30 rounded-full"></div>
-      <div className="absolute bottom-32 left-16 w-6 h-6 bg-white opacity-25 rounded-full"></div>
-      <div className="absolute bottom-20 left-40 w-3 h-3 bg-white opacity-35 rounded-full"></div>
-      <div className="absolute top-32 left-20 w-5 h-5 bg-white opacity-20 rounded-full"></div>
+    <section className="bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600 text-white py-20 px-5 text-center">
+      <h1 className="text-4xl md:text-5xl font-bold mb-4">{title}</h1>
+      <p className="text-lg md:text-xl mb-8">{description}</p>
       
-      {/* Content */}
-      <div className="container mx-auto px-6 py-12">
-        <div className="max-w-xl">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-4 leading-snug">
-            Get Access to Unlimited Educational Resources, Everywhere, Everytime!
-          </h1>
+      <div className="flex flex-wrap justify-center gap-4">
+        {buttons.map((btn, index) => (
           <Button 
-            text="Get Started" 
-            variant="whiteToGradient"
-            size="md"
-            shape="pill"
+            key={index}
+            text={btn.text}
+            variant={btn.variant}
+            shape={btn.shape}
+            size={btn.size}
+            onClick={btn.onClick}
           />
-        </div>
+        ))}
       </div>
-    </div>
+    </section>
   );
-};
-
-export default HeroSection;
+}

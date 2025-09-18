@@ -3,9 +3,9 @@ import { User, Heart, BookmarkPlus, BookOpen, LogOut, X } from "lucide-react";
 
 const UserSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {
   const menuItems = [
+     { id: 2, name: " Courses", icon: BookOpen, path: "/courses", color: "text-green-800", hover: "hover:bg-green-100" },
     { id: 1, name: "Dashboard", icon: User, path: "/dashboard", color: "text-blue-800", hover: "hover:bg-blue-100" },
-    { id: 2, name: "My Courses", icon: BookOpen, path: "/courses", color: "text-green-800", hover: "hover:bg-green-100" },
-    { id: 3, name: "Favorites", icon: Heart, path: "/favorites", color: "text-red-700", hover: "hover:bg-red-100" },
+       { id: 3, name: "Favorites", icon: Heart, path: "/favorites", color: "text-red-700", hover: "hover:bg-red-100" },
     { id: 4, name: "Wishlist", icon: BookmarkPlus, path: "/wishlist", color: "text-purple-800", hover: "hover:bg-purple-100" },
   ];
 
@@ -73,10 +73,10 @@ const UserSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {
         <div className="mt-6">
           <button
             onClick={onLogout}
-            className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-red-200 hover:bg-red-300 text-red-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
+            className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-red-500 hover:bg-red-100 text-red-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
           >
             <LogOut size={20} />
-            <span className="font-medium">Logout</span>
+            <span className="font-medium ">Logout</span>
           </button>
         </div>
       </div>

@@ -1,29 +1,23 @@
-// VideoCard.jsx
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
-import Button from "../button/button";
-import HeartButton from "../button/HeartButton";
+import React from "react";
+import CardActions from "./CardActions"; 
 
 const VideoCard = ({
-  id,
-  title,
+  id = "1",
+  title = "Web Development Course",
   videoUrl,
-  image = "",
-  category = "",
-  description = "",
-  price = "",
-  date = "20 Sep",
+  image = "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400",
+  category = "Programming",
+  description = "Learn the fundamentals of web development",
+  price = "99",
   showHeart = true,
-  rating = 4.5,
 }) => {
-  const [liked, setLiked] = useState(false);
-
   return (
-    <div className="relative overflow-hidden rounded-2xl shadow-xl bg-gray-900 transition-transform duration-300 hover:scale-105 hover:shadow-2xl group">
+    <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-white bg-gradient-to-br from-orange-200 via-orange-400 to-orange-400 transition-transform duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white group w-84 h-96 mx-auto">
       
       {/* Video or Image */}
       {(videoUrl || image) && (
-        <div className="relative h-52 overflow-hidden rounded-t-2xl">
+        <div className="relative h-60 overflow-hidden rounded-t-2xl">
           {videoUrl ? (
             <iframe
               src={videoUrl}
@@ -40,26 +34,16 @@ const VideoCard = ({
             />
           )}
 
-          {/* Rating Circle */}
-          <div className="absolute top-2 left-2 w-10 h-10 rounded-full bg-yellow-400 text-black flex items-center justify-center font-bold shadow-lg z-10">
-            {rating}
-          </div>
-
           {/* Category Capsule */}
           {category && (
-            <div className="absolute top-2 left-16 px-3 py-1 rounded-full bg-green-500 text-white text-sm font-semibold z-10">
+            <div className="absolute top-0 left-0 px-5 py-2 bg-blue-600 text-white text-lg font-bold z-10 rounded-tl-2xl rounded-br-2xl">
               {category}
             </div>
           )}
 
-          {/* Date Capsule */}
-          <div className="absolute top-2 left-36 px-3 py-1 rounded-full bg-gray-700 text-white text-sm font-semibold z-10">
-            {date}
-          </div>
-
           {/* Price Capsule */}
           {price && (
-            <div className="absolute top-2 right-2 px-3 py-1 rounded-full bg-purple-600 text-white text-sm font-semibold z-10">
+            <div className="absolute top-0 right-0 px-5 py-2 bg-purple-600 text-white text-lg font-bold z-10 rounded-tr-2xl rounded-bl-2xl">
               ${price}
             </div>
           )}
@@ -67,18 +51,13 @@ const VideoCard = ({
       )}
 
       {/* Overlay Info */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900/90 to-transparent text-white p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-        <h3 className="text-lg font-bold mb-1">{title}</h3>
-        {description && <p className="text-sm mb-2 opacity-90">{description}</p>}
-<div className="flex flex-wrap gap-2 items-center">
-  <Link to={`/details/${id}`}>
-    <Button text="Details" variant="red" shape="rounded" size="md" />
-  </Link>
-  <Button text="Join course" variant="gradientOrange" shape="rounded" size="md" />
-  <Button text="Add to wish list" variant="gradientOrange" shape="rounded" size="md" />
-  {showHeart && <HeartButton liked={liked} onToggle={setLiked} size={50} />}
-</div>
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-orange-500/90 to-transparent text-white p-4 transform translate-y-2/3 group-hover:translate-y-0 transition-transform duration-300 h-40">
+        <h3 className="text-lg font-bold mb-2 truncate">{title}</h3>
+        {description && (
+          <p className="text-sm mb-3 opacity-90 line-clamp-2">{description}</p>
+        )}
 
+        <CardActions id={id} showHeart={showHeart} />
       </div>
     </div>
   );

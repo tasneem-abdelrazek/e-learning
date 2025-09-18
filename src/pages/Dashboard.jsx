@@ -1,107 +1,64 @@
 import React, { useState } from "react";
-import { Play, BookOpen } from "lucide-react";
-import Button from "../components/button/button";
-import ConfirmModal from "../components/dashbord/ConfirmModal";
+import DashboardCard from "../components/dashbord/DashBordCard";
 
-const DashboardCard = ({ course = {}, onJoin, onUnjoin }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [actionType, setActionType] = useState("");
 
-  const openModal = (type) => {
-    setActionType(type);
-    setModalOpen(true);
+const Dashboard = () => {
+
+  const [courses, setCourses] = useState([
+    {
+      id: "1",
+      title: "React Basics",
+      description: "Learn the fundamentals of React.",
+      type: "Free",
+      image: "https://via.placeholder.com/300x200",
+      progress: 30,
+    },
+    {
+      id: "2",
+      title: "Advanced JavaScript",
+      description: "Deep dive into JavaScript.",
+      type: "Paid",
+      videoUrl: "video.mp4",
+      progress: 70,
+    },
+    {
+      id: "3",
+      title: "CSS Animations",
+      description: "Make your UI alive with animations.",
+      type: "Free",
+      progress: 50,
+    },
+  ]);
+
+
+  const handleJoin = (courseId) => {
+    console.log("Joined course:", courseId);
+  
+    setCourses((prev) =>
+      prev.map((c) =>
+        c.id === courseId ? { ...c, progress: Math.min(c.progress + 10, 100) } : c
+      )
+    );
   };
 
-  const confirmAction = () => {
-    if (actionType === "join" && course.id) onJoin?.(course.id);
-    if (actionType === "unjoin" && course.id) onUnjoin?.(course.id);
-    setModalOpen(false);
+  const handleUnjoin = (courseId) => {
+    console.log("Unjoined course:", courseId);
+
+    setCourses((prev) => prev.map((c) => (c.id === courseId ? { ...c, progress: 0 } : c)));
   };
 
   return (
-    <div
-      className="relative bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 max-w-sm w-full"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Course Image or Video */}
-      <div className="relative h-48 bg-gray-200">
-        {course?.image ? (
-          <img src={course.image} alt={course.title} className="w-full h-full object-cover" />
-        ) : course?.videoUrl ? (
-          <div className="w-full h-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center">
-            <Play className="w-16 h-16 text-white opacity-80" />
-          </div>
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
-            <BookOpen className="w-16 h-16 text-gray-600" />
-          </div>
-        )}
-
-        {/* Course Type Badge */}
-        <div className="absolute top-3 right-3">
-          <span
-            className={`px-3 py-1 text-sm font-semibold rounded-full ${
-              course?.type === "Free" ? "bg-orange-500 text-white" : "bg-purple-600 text-white"
-            }`}
-          >
-            {course?.type || "N/A"}
-          </span>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="p-6 bg-gradient-to-br from-orange-400 to-orange-600 text-white">
-        <h3 className="text-lg font-bold mb-2 leading-tight">{course?.title || "Untitled"}</h3>
-
-        {/* Progress Bar */}
-        <div className="mb-4">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-sm opacity-90">{course?.progress ?? 0}% Complete</span>
-          </div>
-          <div className="w-full bg-white bg-opacity-20 rounded-full h-2">
-            <div
-              className="bg-white rounded-full h-2 transition-all duration-300"
-              style={{ width: `${course?.progress ?? 0}%` }}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Hover Overlay */}
-      {isHovered && (
-        <div className="absolute inset-0 flex flex-col justify-center items-center transition-all duration-300 pointer-events-none bg-white bg-opacity-10">
-          <h4 className="text-xl font-bold mb-4 pointer-events-auto">{course?.title || "Untitled"}</h4>
-          <p className="text-sm text-center px-4 mb-6 opacity-90 pointer-events-auto">{course?.description || ""}</p>
-          <div className="flex space-x-3 pointer-events-auto">
-            <Button
-              text="Continue Learning"
-              variant="gradientOrange"
-              shape="rounded"
-              size="md"
-              onClick={() => openModal("join")}
-            />
-            <Button
-              text="Remove"
-              variant="redOutline"
-              shape="rounded"
-              size="md"
-              onClick={() => openModal("unjoin")}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Confirm Modal */}
-      <ConfirmModal
-        isOpen={modalOpen}
-        actionType={actionType}
-        onConfirm={confirmAction}
-        onCancel={() => setModalOpen(false)}
-      />
+    <div className="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {courses.map((course) => (
+        <DashboardCard
+          key={course.id}
+          course={course}
+          onJoin={handleJoin}
+          onUnjoin={handleUnjoin}
+        />
+      ))}
     </div>
   );
 };
 
-export default DashboardCard;
+export default Dashboard;
