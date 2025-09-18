@@ -45,6 +45,18 @@ export default function Button({
     greenOutline: "bg-transparent text-green-500 border border-green-500 hover:bg-green-500 hover:text-white",
     black: "bg-black text-white hover:bg-gray-800",
     blackOutline: "bg-transparent text-black border border-black hover:bg-black hover:text-white",
+    lightYellow: `
+    bg-[#FFF7DF] text-[#FFC000] text-xs rounded-full p-2 px-4 
+    hover:bg-[#ffeebf] transition
+  `,
+  gradientOrangeHero: `
+    bg-gradient-to-r from-[#FF8A00] to-[#FFC000] 
+    text-white 
+    rounded-full 
+    p-2 px-4 
+    hover:from-[#FFB000] hover:to-[#FFC000] 
+    transition
+  `,
   };
 
   return (

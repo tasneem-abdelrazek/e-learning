@@ -60,7 +60,7 @@ const VideoCard = ({
           {/* Price Capsule */}
           {price && (
             <div className="absolute top-2 right-2 px-3 py-1 rounded-full bg-purple-600 text-white text-sm font-semibold z-10">
-              ${price}
+              {price}
             </div>
           )}
         </div>
