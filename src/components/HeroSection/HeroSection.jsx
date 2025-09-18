@@ -7,7 +7,7 @@ export default function HeroSection({
   buttons = [] 
 }) {
   return (
-    <section className="flex bg-gradient-to-r from-[#FF8A00] to-[#FFC000] text-white p-6 sm:p-10 lg:p-20 leading-loose" style={{height}}>
+    <section className="flex bg-gradient-to-r from-[#FF8A00] to-[#FFC000] text-white p-6 sm:p-10 lg:p-20 leading-loose">
         <div className='w-1/2'>
           {/* Title */}
           <h1 className='text-base sm:text-lg md:text-2xl lg:text-3xl font-bold w-100 leading-normal'>
