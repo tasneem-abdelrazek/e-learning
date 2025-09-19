@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-<<<<<<< Updated upstream
-import HeroSection from "../components/HeroSection/HeroSection";
-import CoursesSection from "../components/CoursesSection/CoursesSection";
-
-
-=======
 import VideoCard from "../components/CourseCard/VideoCard";
 import HeroSection from "../components/HeroSection/HeroSection";
->>>>>>> Stashed changes
+import CoursesSection from "../components/CoursesSection/CoursesSection";
 
 export default function Courses() {
   const [courses, setCourses] = useState([]);
@@ -23,7 +17,7 @@ export default function Courses() {
         const coursesCol = collection(db, "courses");
         const snapshot = await getDocs(coursesCol);
 
-        const coursesList = snapshot.docs.map(doc => {
+        const coursesList = snapshot.docs.map((doc) => {
           const data = doc.data();
           return {
             id: doc.id,
@@ -32,10 +26,7 @@ export default function Courses() {
             price: data.price || "",
             category: data.category || "",
             createdAt: data.createdAt || null,
-<<<<<<< Updated upstream
-            description: data.description || "",
-=======
->>>>>>> Stashed changes
+            description: data.description || "", // أخدت من عندك
           };
         });
 
@@ -51,7 +42,6 @@ export default function Courses() {
   }, []);
 
   if (loading) {
-
     return <p className="text-center mt-6 text-sm">Loading courses...</p>;
   }
 
@@ -61,8 +51,6 @@ export default function Courses() {
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
-
-
       <div className="mt-6">
         <HeroSection
           title="Browse Thousands of Our Video Tutorials Curated Only for you."
@@ -76,14 +64,13 @@ export default function Courses() {
             section: "py-10 sm:py-12",
             title: "text-2xl sm:text-3xl md:text-4xl lg:text-4xl",
             description: "text-sm sm:text-base md:text-base lg:text-base mb-6",
-            buttonsContainer: "flex flex-col sm:flex-row flex-wrap gap-3 justify-center"
+            buttonsContainer: "flex flex-col sm:flex-row flex-wrap gap-3 justify-center",
           }}
         />
       </div>
 
-<<<<<<< Updated upstream
+      {/*Search + CoursesSection */}
       <div className="m-20">
-        {/* Search */}
         <div className="flex justify-center">
           <div className="relative w-full">
             <input
@@ -107,7 +94,11 @@ export default function Courses() {
               strokeWidth="2"
               viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z"
+              />
             </svg>
 
             {/* Clear icon */}
@@ -116,51 +107,40 @@ export default function Courses() {
                 onClick={() => setSearchTerm("")}
                 className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 flex items-center justify-center text-white hover:text-gray-200"
               >
-                &#10005; {/* رمز × */}
+                &#10005;
               </button>
             )}
           </div>
         </div>
 
         <CoursesSection searchTerm={searchTerm} />
-        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 mb-10">
-          {courses.map(course => (
-            <VideoCard
-              key={course.id}
-              id={course.id}
-              title={course.title}
-              image={course.image}
-              description={course.description}
-              price={course.price}
-              category={course.category}
+      </div>
 
-            />
-          ))}
-        </div> */}
-=======
-      {/* Courses Grid */}
+      {/*Courses Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 mb-10 auto-rows-[300px]">
-        {courses.map(course => (
+        {courses.map((course) => (
           <VideoCard
             key={course.id}
             id={course.id}
             title={course.title}
             image={course.image}
+            description={course.description}
             price={course.price}
             category={course.category}
-            date={course.createdAt ? new Date(course.createdAt.seconds * 1000).toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" }) : "N/A"}
+            date={
+              course.createdAt
+                ? new Date(course.createdAt.seconds * 1000).toLocaleDateString(
+                  "en-US",
+                  { day: "2-digit", month: "short", year: "numeric" }
+                )
+                : "N/A"
+            }
             rating={4.5}
           />
-
         ))}
->>>>>>> Stashed changes
       </div>
 
-
-      <div className="mt-12">
-
-      </div>
-
+      <div className="mt-12"></div>
     </div>
   );
 }
