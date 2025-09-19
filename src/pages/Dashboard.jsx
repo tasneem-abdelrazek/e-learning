@@ -30,17 +30,17 @@ const Dashboard = () => {
 
   const handleJoin = (courseId) => {
     console.log("Joined course:", courseId);
-
     setCourses((prev) =>
       prev.map((c) =>
-        c.id === courseId ? { ...c, progress: Math.min(c.progress + 10, 100) } : c
+        c.id === courseId
+          ? { ...c, progress: Math.min(c.progress + 10, 100) }
+          : c
       )
     );
   };
 
   const handleUnjoin = (courseId) => {
     console.log("Removed course:", courseId);
-
     setCourses((prev) => prev.filter((c) => c.id !== courseId));
   };
 

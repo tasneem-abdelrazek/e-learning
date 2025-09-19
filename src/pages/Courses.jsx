@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+<<<<<<< Updated upstream
 import HeroSection from "../components/HeroSection/HeroSection";
 import CoursesSection from "../components/CoursesSection/CoursesSection";
 
 
+=======
+import VideoCard from "../components/CourseCard/VideoCard";
+import HeroSection from "../components/HeroSection/HeroSection";
+>>>>>>> Stashed changes
 
 export default function Courses() {
   const [courses, setCourses] = useState([]);
@@ -27,7 +32,10 @@ export default function Courses() {
             price: data.price || "",
             category: data.category || "",
             createdAt: data.createdAt || null,
+<<<<<<< Updated upstream
             description: data.description || "",
+=======
+>>>>>>> Stashed changes
           };
         });
 
@@ -43,6 +51,7 @@ export default function Courses() {
   }, []);
 
   if (loading) {
+
     return <p className="text-center mt-6 text-sm">Loading courses...</p>;
   }
 
@@ -72,6 +81,7 @@ export default function Courses() {
         />
       </div>
 
+<<<<<<< Updated upstream
       <div className="m-20">
         {/* Search */}
         <div className="flex justify-center">
@@ -127,6 +137,23 @@ export default function Courses() {
             />
           ))}
         </div> */}
+=======
+      {/* Courses Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 mb-10 auto-rows-[300px]">
+        {courses.map(course => (
+          <VideoCard
+            key={course.id}
+            id={course.id}
+            title={course.title}
+            image={course.image}
+            price={course.price}
+            category={course.category}
+            date={course.createdAt ? new Date(course.createdAt.seconds * 1000).toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" }) : "N/A"}
+            rating={4.5}
+          />
+
+        ))}
+>>>>>>> Stashed changes
       </div>
 
 

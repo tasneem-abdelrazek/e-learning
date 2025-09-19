@@ -5,6 +5,7 @@ import ConfirmModal from "./ConfirmModal";
 
 const DashboardCard = ({ course = {}, onJoin, onUnjoin }) => {
   const [modal, setModal] = useState({ open: false, type: "" });
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleAction = (type) => setModal({ open: true, type });
 
@@ -19,7 +20,11 @@ const DashboardCard = ({ course = {}, onJoin, onUnjoin }) => {
   const { image, videoUrl, type, title, description, progress = 0 } = course;
 
   return (
-    <div className="relative bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-1 max-w-sm w-full">
+    <div
+      className="relative bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-1 max-w-sm w-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {/* Image / Video / Default */}
       <div className="relative h-48 bg-gray-200 flex items-center justify-center">
         {image ? (
@@ -32,9 +37,8 @@ const DashboardCard = ({ course = {}, onJoin, onUnjoin }) => {
 
         {/* Type Badge */}
         <span
-          className={`absolute top-3 right-3 px-3 py-1 text-sm font-semibold rounded-full ${
-            type === "Free" ? "bg-orange-500" : "bg-purple-600"
-          } text-white`}
+          className={`absolute top-3 right-3 px-3 py-1 text-sm font-semibold rounded-full ${type === "Free" ? "bg-orange-500" : "bg-purple-600"
+            } text-white`}
         >
           {type || "N/A"}
         </span>
@@ -43,10 +47,9 @@ const DashboardCard = ({ course = {}, onJoin, onUnjoin }) => {
       {/* Content */}
       <div className="p-6 bg-gradient-to-br from-orange-400 to-orange-600 text-white">
         <h3 className="text-lg font-bold mb-2">{title || "Untitled"}</h3>
-        <p className="text-sm mb-4 opacity-90">{description}</p>
 
         {/* Progress */}
-        <div className="mb-4">
+        <div className="mb-2">
           <div className="flex justify-between mb-2 text-sm opacity-90">
             <span>{progress}% Complete</span>
           </div>
@@ -57,23 +60,29 @@ const DashboardCard = ({ course = {}, onJoin, onUnjoin }) => {
             />
           </div>
         </div>
-
-        {/* Fixed Actions at Bottom */}
-        <div className="flex gap-3 mt-4">
-          <Button
-            text="Continue Learning"
-            variant="white"
-            shape="rounded"
-            onClick={() => handleAction("join")}
-          />
-          <Button
-            text="Remove"
-            variant="white"
-            shape="rounded"
-            onClick={() => handleAction("unjoin")}
-          />
-        </div>
       </div>
+
+      {/* Hover Overlay */}
+      {isHovered && (
+        <div className="absolute inset-0 flex flex-col justify-center items-center bg-black bg-opacity-50 transition duration-300">
+          <h4 className="text-xl font-bold mb-2">{title || "Untitled"}</h4>
+          <p className="text-sm text-center px-4 mb-4 opacity-90">{description}</p>
+          <div className="flex gap-3">
+            <Button
+              text="Continue Learning"
+              variant="white"
+              shape="rounded"
+              onClick={() => handleAction("join")}
+            />
+            <Button
+              text="Remove"
+              variant="white"
+              shape="rounded"
+              onClick={() => handleAction("unjoin")}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Modal */}
       <ConfirmModal
