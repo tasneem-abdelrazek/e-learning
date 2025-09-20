@@ -3,13 +3,14 @@ import CardActions from "./CardActions";
 import DefaultImage from "../../assets/course_not_found_icon.png";
 
 const VideoCard = ({ courseData }) => {
+  if (!courseData) return null; // حماية لو الداتا مش موجودة
+
   return (
     <div className="relative overflow-hidden rounded-2xl shadow-xl bg-gradient-to-br from-orange-200 via-orange-400 to-orange-400 hover:scale-105 transition-transform duration-300 group w-84 h-96 mx-auto">
       <div className="relative h-60 overflow-hidden rounded-t-2xl">
-      
         <img
           src={courseData.imageUrl || DefaultImage}
-          alt={courseData.title}
+          alt={courseData.title || "Untitled"}
           className="w-full h-full object-cover rounded-t-2xl"
         />
 

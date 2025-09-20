@@ -77,14 +77,14 @@ export default function AdminDashboard() {
         if (!value.trim()) {
           error = "Image URL is required";
         } else if (!/^https?:\/\/.+/i.test(value)) {
-          error = "Image URL must be a valid : start with https";
+          error = "Image URL must be a valid link starting with https";
         }
         break;
       case "videoUrl":
         if (!value.trim()) {
           error = "Video URL is required";
         } else if (!/^https?:\/\/.+/i.test(value)) {
-          error = "Video URL must be a valid link : start with https";
+          error = "Video URL must be a valid link starting with https";
         }
         break;
       default:
@@ -364,41 +364,6 @@ export default function AdminDashboard() {
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
         </div>
 
-        {/* Instructor */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Instructor</label>
-          <input
-            type="text"
-            className="w-full border rounded px-3 py-2"
-            value={form.instructor}
-            onChange={(e) => setForm({ ...form, instructor: e.target.value })}
-            required
-          />
-        </div>
-
-        {/* Bio */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Bio</label>
-          <textarea
-            className="w-full border rounded px-3 py-2"
-            value={form.bio}
-            onChange={(e) => setForm({ ...form, bio: e.target.value })}
-            required
-          ></textarea>
-        </div>
-
-        {/* Email */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Email</label>
-          <input
-            type="email"
-            className="w-full border rounded px-3 py-2"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            required
-          />
-        </div>
-
         {/* Image URL */}
         <div className="mb-4">
           <label className="block mb-1 font-medium">Image URL</label>
@@ -427,17 +392,6 @@ export default function AdminDashboard() {
           )}
         </div>
 
-        {/* Video URL */}
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Video URL</label>
-          <input
-            type="url"
-            className="w-full border rounded px-3 py-2"
-            value={form.videoUrl}
-            onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
-          />
-        </div>
-
         <button
           type="submit"
           className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700"
@@ -459,16 +413,11 @@ export default function AdminDashboard() {
                 <th className="p-2 border">Description</th>
                 <th className="p-2 border">Category</th>
                 <th className="p-2 border">Tag</th>
-                <th className="p-2 border">Tag</th>
                 <th className="p-2 border">Price</th>
                 <th className="p-2 border">Instructor</th>
                 <th className="p-2 border">Bio</th>
                 <th className="p-2 border">Email</th>
-                <th className="p-2 border">Instructor</th>
-                <th className="p-2 border">Bio</th>
-                <th className="p-2 border">Email</th>
                 <th className="p-2 border">Image</th>
-                <th className="p-2 border">Video</th>
                 <th className="p-2 border">Video</th>
                 <th className="p-2 border">Actions</th>
               </tr>
@@ -481,7 +430,7 @@ export default function AdminDashboard() {
                   <td className="p-2 border">{course.category}</td>
                   <td className="p-2 border">{course.tag}</td>
                   <td className="p-2 border">
-                    {course.tag === "Paid" ? `$${course.price}` : "Free"}
+                    {course.tag === "Paid" ? course.price : "Free"}
                   </td>
                   <td className="p-2 border">{course.instructor}</td>
                   <td className="p-2 border">{course.bio}</td>
@@ -587,7 +536,7 @@ export default function AdminDashboard() {
                 </>
               ) : (
                 <button
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700"
                   onClick={() => setPopup({ ...popup, show: false })}
                 >
                   OK

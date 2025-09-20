@@ -1,16 +1,15 @@
 // store/index.js
-import { configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import { combineReducers } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import authReducer from "./slices/authSlice";
 import langReducer from "./slices/langSlice";
 import selectedCourseReducer from "./slices/coursesSlice";
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
-  whitelist: ['selectedCourse'], // auth
+  whitelist: ["selectedCourse"],
 };
 
 const rootReducer = combineReducers({
@@ -19,13 +18,14 @@ const rootReducer = combineReducers({
   selectedCourse: selectedCourseReducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer); // to loed in local storage
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    lang: langReducer,
-  },
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // ن redux-persist
+    }),
 });
 
 export const persistor = persistStore(store);

@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import * as coursesActions from "../../store/slices/coursesSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../firebase";
 import VideoCard from "../CourseCard/VideoCard";
-import DefaultImage from "../../assets/course_not_found_icon.png";
-import { useSelector } from "react-redux";
 import en from "../../Local/en";
 import ar from "../../Local/ar";
 
+// eslint-disable-next-line no-unused-vars
 function CoursesSection({ limitCount, showFilter = true, searchTerm = "", showPagination = true }) {
   const lang = useSelector((state) => state.lang.language);
   const content = lang === "en" ? en : ar;
@@ -16,9 +15,9 @@ function CoursesSection({ limitCount, showFilter = true, searchTerm = "", showPa
   const [courses, setCourses] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedPrice, setSelectedPrice] = useState(null);
-
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
+
   const coursesPerPage = 8;
 
   const categories = ["All", "Programming", "Business", "Marketing", "Design"];
@@ -88,10 +87,11 @@ function CoursesSection({ limitCount, showFilter = true, searchTerm = "", showPa
             {categories.map((cat) => (
               <button
                 key={cat}
-                className={`px-4 py-2 rounded-full font-medium transition ${selectedCategory === cat
+                className={`px-4 py-2 rounded-full font-medium transition ${
+                  selectedCategory === cat
                     ? "bg-orange-500 text-white"
                     : "bg-gray-200 text-gray-700 hover:bg-orange-100"
-                  }`}
+                }`}
                 onClick={() => setSelectedCategory(cat)}
               >
                 {cat}
@@ -121,18 +121,9 @@ function CoursesSection({ limitCount, showFilter = true, searchTerm = "", showPa
 
       {/* Courses Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-
         {currentCourses.length > 0 ? (
           currentCourses.map((course) => (
-            <VideoCard
-              key={course.id}
-              id={course.id}
-              title={course.title}
-              image={course.imageUrl || DefaultImage}
-              category={course.category}
-              description={course.description}
-              price={course.price == 0 ? "Free" : `$${course.price}`}
-            />
+            <VideoCard key={course.id} courseData={course} />
           ))
         ) : (
           <p className="text-center col-span-full text-gray-500">
@@ -148,15 +139,15 @@ function CoursesSection({ limitCount, showFilter = true, searchTerm = "", showPa
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`px-4 py-2 rounded-full border ${page === currentPage ? "bg-orange-500 text-white" : "bg-white text-gray-700"
-                }`}
+              className={`px-4 py-2 rounded-full border ${
+                page === currentPage ? "bg-orange-500 text-white" : "bg-white text-gray-700"
+              }`}
             >
               {page}
             </button>
           ))}
         </div>
       )}
-
     </div>
   );
 }
