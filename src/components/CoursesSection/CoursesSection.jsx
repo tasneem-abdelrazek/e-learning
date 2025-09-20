@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import * as coursesActions from "../../store/slices/coursesSlice";
+import { useDispatch } from "react-redux";
 import { db } from "../../firebase";
 import VideoCard from "../CourseCard/VideoCard";
 import DefaultImage from "../../assets/course_not_found_icon.png";
@@ -16,6 +18,7 @@ function CoursesSection({ limitCount, showFilter = true, searchTerm = "", showPa
   const [selectedPrice, setSelectedPrice] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const dispatch = useDispatch();
   const coursesPerPage = 8;
 
   const categories = ["All", "Programming", "Business", "Marketing", "Design"];
@@ -63,6 +66,7 @@ function CoursesSection({ limitCount, showFilter = true, searchTerm = "", showPa
       }
 
       setCourses(coursesArray);
+      dispatch(coursesActions.setCourses(coursesArray));
       setCurrentPage(1); 
     };
 

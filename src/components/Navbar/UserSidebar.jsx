@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { User, Heart, BookmarkPlus, BookOpen, LogOut, X } from "lucide-react";
+import { clearUser } from "../../store/slices/authSlice"; 
 
-const UserSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {
+const UserSidebar = ({ isOpen, onClose }) => {
+  const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.auth.currentUser);
 
   let menuItems = [];
 
   if (currentUser?.role === "admin") {
-
     menuItems = [
       { id: 2, name: "Courses", icon: BookOpen, path: "/courses", color: "text-green-800", hover: "hover:bg-green-100" },
       { id: 5, name: "Admin Dashboard", icon: User, path: "/admin/dashboard", color: "text-yellow-800", hover: "hover:bg-yellow-100" },
     ];
   } else {
-
     menuItems = [
       { id: 1, name: "Dashboard", icon: User, path: "/dashboard", color: "text-blue-800", hover: "hover:bg-blue-100" },
       { id: 2, name: "Courses", icon: BookOpen, path: "/courses", color: "text-green-800", hover: "hover:bg-green-100" },
@@ -20,6 +22,11 @@ const UserSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {
       { id: 4, name: "Wishlist", icon: BookmarkPlus, path: "/wishlist", color: "text-purple-800", hover: "hover:bg-purple-100" },
     ];
   }
+
+  const handleLogout = () => {
+    dispatch(clearUser());
+    onClose();
+  };
 
   return (
     <>
@@ -71,7 +78,7 @@ const UserSidebar = ({ isOpen, onClose, currentUser, onLogout }) => {
 
         <div className="mt-6">
           <button
-            onClick={onLogout}
+            onClick={handleLogout}
             className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-red-500 hover:bg-red-100 text-red-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
           >
             <LogOut size={20} />

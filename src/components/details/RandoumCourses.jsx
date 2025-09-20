@@ -1,32 +1,63 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
 import CardActions from "../CourseCard/CardActions";
 
-const RandoumCourses = ({ courses }) => {
+const RandoumCourses = () => {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    // Initialize Swiper from CDN
-    const swiper = new window.Swiper(".mySwiper", {
-      slidesPerView: 1,
-      spaceBetween: 20,
-      loop: true,
-      autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      breakpoints: {
-        640: { slidesPerView: 1 },
-        768: { slidesPerView: 2 },
-        1024: { slidesPerView: 3 },
-      },
-    });
+    // Fetch courses from Firebase
+    const fetchCourses = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "courses"));
+        const coursesArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setCourses(coursesArray);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
   }, []);
+
+  useEffect(() => {
+    // Initialize Swiper after courses are loaded
+    if (courses.length > 0 && window.Swiper) {
+      const swiper = new window.Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: true,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        breakpoints: {
+          640: { slidesPerView: 1 },
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+        },
+      });
+    }
+  }, [courses]);
+
+  if (loading) {
+    return <p className="text-gray-500">Loading courses...</p>;
+  }
 
   if (!courses || courses.length === 0) {
     return <p className="text-gray-500">No courses available right now.</p>;
@@ -60,16 +91,15 @@ const RandoumCourses = ({ courses }) => {
                   </p>
                 </div>
 
-                <CardActions id={course.id} showHeart={true} />
+                <CardActions courseData={course} showHeart={true} />
               </div>
             </div>
           ))}
         </div>
-
-  
+        
         <div className="swiper-button-next"></div>
         <div className="swiper-button-prev"></div>
-  
+        
         <div className="swiper-pagination"></div>
       </div>
     </div>

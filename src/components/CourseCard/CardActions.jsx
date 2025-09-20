@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Heart, BookOpen, BookmarkPlus, User } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { BookOpen, Heart, BookmarkPlus, User } from "lucide-react";
+import * as coursesActions from "../../store/slices/coursesSlice";
 
-const CardActions = ({ id, showHeart = true }) => {
+const CardActions = ({ courseData, showHeart = true }) => {
   const [liked, setLiked] = useState(false);
+  const dispatch = useDispatch();
+  
+  if (!courseData) return null;
+
+  const handleDetailsClick = () => {
+    dispatch(coursesActions.setSelectedCourse(courseData));
+  };
 
   return (
     <div className="flex gap-3 items-end mt-3">
-      {/* Details */}
       <div className="flex flex-col items-center">
         <Link
-          to={`/details/${id}`}
+          to={`/details/${courseData.id}`}
+          onClick={handleDetailsClick}
           className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors mb-1"
         >
           <BookOpen size={20} className="text-white" />
@@ -18,15 +27,13 @@ const CardActions = ({ id, showHeart = true }) => {
         <span className="text-xs text-gray-300 font-medium">Details</span>
       </div>
 
-      {/* Join Course */}
       <div className="flex flex-col items-center">
-        <button className="p-2 rounded-full bg-blue-500 hover:bg--400 transition-colors mb-1">
+        <button className="p-2 rounded-full bg-blue-500 hover:bg-blue-400 transition-colors mb-1">
           <User size={20} className="text-white" />
         </button>
         <span className="text-xs text-gray-300 font-medium">Join</span>
       </div>
 
-      {/* Wishlist */}
       <div className="flex flex-col items-center">
         <button className="p-2 rounded-full bg-purple-600 hover:bg-purple-500 transition-colors mb-1">
           <BookmarkPlus size={20} className="text-white" />
@@ -34,7 +41,6 @@ const CardActions = ({ id, showHeart = true }) => {
         <span className="text-xs text-gray-300 font-medium">Wishlist</span>
       </div>
 
-      {/* Heart */}
       {showHeart && (
         <div className="flex flex-col items-center">
           <button
