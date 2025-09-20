@@ -11,12 +11,12 @@ export default function Courses() {
 
   const content = lang === "en" ? en : ar;
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div>
       {/* Hero Section */}
       <div className="mt-6">
         <HeroSection
           title={content.browseTutorials}
-          height="60vh"
+          height="50vh"
           description={
             <>
               {content.accessPremium}{" "}

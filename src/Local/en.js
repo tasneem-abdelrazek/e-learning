@@ -35,6 +35,7 @@ const en = {
                     in digital marketing, Accounting, Web development, Programming, Multimedia and CAD design.`,
     "browseTutorials": "Browse Thousands of Our Video Tutorials Curated Only for You.",
     "accessPremium": "Access all tutorials and resources when you become a premium member of",
+    "allPrices": "All Prices"
 }
 
 export default en
