@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import {
   addCourse,
@@ -21,11 +22,97 @@ export default function AdminDashboard() {
     imageUrl: "",
     videoUrl: "",
   });
+
+  const [errors, setErrors] = useState({});
   const [editingId, setEditingId] = useState(null);
   const [lastDoc, setLastDoc] = useState(null);
 
+  // Popup state
+  const [popup, setPopup] = useState({
+    show: false,
+    type: "",
+    message: "",
+    onConfirm: null,
+  });
+
   const categories = ["Programming", "Design", "Business", "Marketing"];
   const tags = ["Free", "Paid"];
+
+  // Validation 
+  const validateField = (field, value) => {
+    let error = "";
+
+    switch (field) {
+      case "title":
+        if (!value.trim()) error = "Title is required";
+        break;
+      case "description":
+        if (!value.trim()) error = "Description is required";
+        break;
+      case "price":
+        if (form.tag === "Paid") {
+          if (!value.trim()) {
+            error = "Price is required for paid courses";
+          } else if (!/^\d+(\.\d{1,2})?$/.test(value)) {
+            error = "Price must be a valid number";
+          } else if (parseFloat(value) <= 0) {
+            error = "Price must be greater than 0 for paid courses";
+          }
+        }
+        break;
+      case "instructor":
+        if (!value.trim()) error = "Instructor name is required";
+        break;
+      case "bio":
+        if (!value.trim()) error = "Bio is required";
+        break;
+      case "email":
+        if (!value.trim()) {
+          error = "Email is required";
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          error = "Invalid email format";
+        }
+        break;
+      case "imageUrl":
+        if (!value.trim()) {
+          error = "Image URL is required";
+        } else if (!/^https?:\/\/.+/i.test(value)) {
+          error = "Image URL must be a valid : start with https";
+        }
+        break;
+      case "videoUrl":
+        if (!value.trim()) {
+          error = "Video URL is required";
+        } else if (!/^https?:\/\/.+/i.test(value)) {
+          error = "Video URL must be a valid link : start with https";
+        }
+        break;
+      default:
+        break;
+    }
+
+    return error;
+  };
+
+  // handleChange 
+  const handleChange = (field, value) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+
+    const errorMsg = validateField(field, value);
+    setErrors((prev) => ({ ...prev, [field]: errorMsg }));
+  };
+
+  // Reset price if Free
+  useEffect(() => {
+    if (form.tag === "Free") {
+      setForm((prev) => ({ ...prev, price: "" }));
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors.price;
+        return newErrors;
+      });
+    }
+  }, [form.tag]);
 
   // Fetch courses
   const fetchCourses = async (reset = false) => {
@@ -45,7 +132,11 @@ export default function AdminDashboard() {
 
       setLastDoc(snapshot.docs[snapshot.docs.length - 1] || null);
     } catch (err) {
-      console.error("Error fetching courses:", err);
+      setPopup({
+        show: true,
+        type: "error",
+        message: "Error fetching courses. Please try again.",
+      });
     }
     setLoading(false);
   };
@@ -54,16 +145,40 @@ export default function AdminDashboard() {
     fetchCourses(true);
   }, []);
 
+  // Validate all fields before submit
+  const validateForm = () => {
+    const newErrors = {};
+    Object.keys(form).forEach((field) => {
+      const error = validateField(field, form[field]);
+      if (error) newErrors[field] = error;
+    });
+    return newErrors;
+  };
+
   // Add or update a course
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newErrors = validateForm();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    setErrors({});
     try {
       if (editingId) {
         await updateCourse(editingId, form);
-        console.log("Course updated successfully");
+        setPopup({
+          show: true,
+          type: "success",
+          message: "Course updated successfully!",
+        });
       } else {
         await addCourse(form);
-        console.log("Course added successfully");
+        setPopup({
+          show: true,
+          type: "success",
+          message: "Course added successfully!",
+        });
       }
       setForm({
         title: "",
@@ -80,21 +195,38 @@ export default function AdminDashboard() {
       setEditingId(null);
       fetchCourses(true);
     } catch (err) {
-      console.error("Error saving course:", err);
+      setPopup({
+        show: true,
+        type: "error",
+        message: "Error saving course. Please try again.",
+      });
     }
   };
 
   // Delete course
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this course?")) {
-      try {
-        await deleteCourse(id);
-        console.log("Course deleted");
-        fetchCourses(true);
-      } catch (err) {
-        console.error("Error deleting course:", err);
-      }
-    }
+  const handleDelete = (id) => {
+    setPopup({
+      show: true,
+      type: "confirm",
+      message: "Do you really want to delete this course?",
+      onConfirm: async () => {
+        try {
+          await deleteCourse(id);
+          setPopup({
+            show: true,
+            type: "success",
+            message: "Course deleted successfully!",
+          });
+          fetchCourses(true);
+        } catch (err) {
+          setPopup({
+            show: true,
+            type: "error",
+            message: "Error deleting course. Please try again.",
+          });
+        }
+      },
+    });
   };
 
   // Edit course
@@ -116,7 +248,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-blue-700">
+      <h1 className="text-3xl font-bold mb-6 text-orange-600">
         Admin Dashboard
       </h1>
 
@@ -136,9 +268,9 @@ export default function AdminDashboard() {
             type="text"
             className="w-full border rounded px-3 py-2"
             value={form.title}
-            onChange={(e) => setForm({ ...form, title: e.target.value })}
-            required
+            onChange={(e) => handleChange("title", e.target.value)}
           />
+          {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
         </div>
 
         {/* Description */}
@@ -147,9 +279,11 @@ export default function AdminDashboard() {
           <textarea
             className="w-full border rounded px-3 py-2"
             value={form.description}
-            onChange={(e) => setForm({ ...form, description: e.target.value })}
-            required
+            onChange={(e) => handleChange("description", e.target.value)}
           ></textarea>
+          {errors.description && (
+            <p className="text-red-500 text-sm">{errors.description}</p>
+          )}
         </div>
 
         {/* Category */}
@@ -158,7 +292,7 @@ export default function AdminDashboard() {
           <select
             className="w-full border rounded px-3 py-2"
             value={form.category}
-            onChange={(e) => setForm({ ...form, category: e.target.value })}
+            onChange={(e) => handleChange("category", e.target.value)}
           >
             {categories.map((cat) => (
               <option key={cat}>{cat}</option>
@@ -172,7 +306,7 @@ export default function AdminDashboard() {
           <select
             className="w-full border rounded px-3 py-2"
             value={form.tag}
-            onChange={(e) => setForm({ ...form, tag: e.target.value })}
+            onChange={(e) => handleChange("tag", e.target.value)}
           >
             {tags.map((tag) => (
               <option key={tag}>{tag}</option>
@@ -184,12 +318,13 @@ export default function AdminDashboard() {
         <div className="mb-4">
           <label className="block mb-1 font-medium">Price</label>
           <input
-            type="number"
+            type="text"
             className="w-full border rounded px-3 py-2"
             value={form.price}
-            onChange={(e) => setForm({ ...form, price: e.target.value })}
-            required
+            onChange={(e) => handleChange("price", e.target.value)}
+            disabled={form.tag === "Free"}
           />
+          {errors.price && <p className="text-red-500 text-sm">{errors.price}</p>}
         </div>
 
         {/* Instructor */}
@@ -199,9 +334,11 @@ export default function AdminDashboard() {
             type="text"
             className="w-full border rounded px-3 py-2"
             value={form.instructor}
-            onChange={(e) => setForm({ ...form, instructor: e.target.value })}
-            required
+            onChange={(e) => handleChange("instructor", e.target.value)}
           />
+          {errors.instructor && (
+            <p className="text-red-500 text-sm">{errors.instructor}</p>
+          )}
         </div>
 
         {/* Bio */}
@@ -210,48 +347,54 @@ export default function AdminDashboard() {
           <textarea
             className="w-full border rounded px-3 py-2"
             value={form.bio}
-            onChange={(e) => setForm({ ...form, bio: e.target.value })}
-            required
+            onChange={(e) => handleChange("bio", e.target.value)}
           ></textarea>
+          {errors.bio && <p className="text-red-500 text-sm">{errors.bio}</p>}
         </div>
 
         {/* Email */}
         <div className="mb-4">
           <label className="block mb-1 font-medium">Email</label>
           <input
-            type="email"
+            type="text"
             className="w-full border rounded px-3 py-2"
             value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            required
+            onChange={(e) => handleChange("email", e.target.value)}
           />
+          {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
         </div>
 
         {/* Image URL */}
         <div className="mb-4">
           <label className="block mb-1 font-medium">Image URL</label>
           <input
-            type="url"
+            type="text"
             className="w-full border rounded px-3 py-2"
             value={form.imageUrl}
-            onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+            onChange={(e) => handleChange("imageUrl", e.target.value)}
           />
+          {errors.imageUrl && (
+            <p className="text-red-500 text-sm">{errors.imageUrl}</p>
+          )}
         </div>
 
         {/* Video URL */}
         <div className="mb-4">
           <label className="block mb-1 font-medium">Video URL</label>
           <input
-            type="url"
+            type="text"
             className="w-full border rounded px-3 py-2"
             value={form.videoUrl}
-            onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
+            onChange={(e) => handleChange("videoUrl", e.target.value)}
           />
+          {errors.videoUrl && (
+            <p className="text-red-500 text-sm">{errors.videoUrl}</p>
+          )}
         </div>
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700"
         >
           {editingId ? "Update" : "Add"}
         </button>
@@ -286,7 +429,9 @@ export default function AdminDashboard() {
                   <td className="p-2 border">{course.description}</td>
                   <td className="p-2 border">{course.category}</td>
                   <td className="p-2 border">{course.tag}</td>
-                  <td className="p-2 border">${course.price}</td>
+                  <td className="p-2 border">
+                    {course.tag === "Paid" ? `$${course.price}` : "Free"}
+                  </td>
                   <td className="p-2 border">{course.instructor}</td>
                   <td className="p-2 border">{course.bio}</td>
                   <td className="p-2 border">{course.email}</td>
@@ -303,11 +448,14 @@ export default function AdminDashboard() {
                   </td>
                   <td className="p-2 border">
                     {course.videoUrl ? (
-                      <img
-                        src={course.videoUrl}
-                        alt={course.title}
-                        className="h-12 w-12 object-cover rounded"
-                      />
+                      <a
+                        href={course.videoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 underline"
+                      >
+                        Watch Video
+                      </a>
                     ) : (
                       "N/A"
                     )}
@@ -345,6 +493,60 @@ export default function AdminDashboard() {
           </div>
         )}
       </div>
+
+      {/* Popup */}
+      {popup.show && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center">
+            <h2
+              className={`text-xl font-bold mb-4 ${
+                popup.type === "success"
+                  ? "text-green-600"
+                  : popup.type === "error"
+                  ? "text-red-600"
+                  : "text-yellow-600"
+              }`}
+            >
+              {popup.type === "confirm"
+                ? "Are you sure?"
+                : popup.type === "success"
+                ? "Success"
+                : "Error"}
+            </h2>
+            <p className="mb-6">{popup.message}</p>
+
+            <div className="flex justify-center gap-4">
+              {popup.type === "confirm" ? (
+                <>
+                  <button
+                    className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+                    onClick={() => setPopup({ ...popup, show: false })}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                    onClick={() => {
+                      if (popup.onConfirm) popup.onConfirm();
+                      setPopup({ ...popup, show: false });
+                    }}
+                  >
+                    Delete
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  onClick={() => setPopup({ ...popup, show: false })}
+                >
+                  OK
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+``
