@@ -1,38 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { removeCourse } from "../../store/slices/dashboardSlice";
+import { Play, Trash2, CheckCircle } from "lucide-react";
+import DefaultImage from "../../assets/course_not_found_icon.png";
 
-const ConfirmModal = ({ isOpen, actionType, onConfirm, onCancel }) => {
-  if (!isOpen) return null;
+const DashboardCourseCard = ({ courseData }) => {
+  const dispatch = useDispatch();
+  const [confirm, setConfirm] = useState(false);
+  if (!courseData) return null;
 
-  const actionText = actionType === "join" ? "start this course" : "remove this course";
+  const progress = courseData.progress || 0;
+  const isCompleted = progress >= 100;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-      <div className="bg-white rounded-xl shadow-lg w-11/12 max-w-sm p-6 pointer-events-auto animate-fadeIn">
-        <h2 className="text-lg font-bold mb-4 text-gray-800">Are you sure?</h2>
-        <p className="text-sm text-gray-600 mb-6">
-          You are about to {actionText}. Do you want to continue?
-        </p>
-        <div className="flex justify-end space-x-3">
-          <button
-            onClick={onCancel}
-            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={onConfirm}
-            className={`px-4 py-2 rounded-lg transition ${
-              actionType === "join"
-                ? "bg-green-500 text-white hover:bg-green-600"
-                : "bg-red-500 text-white hover:bg-red-600"
-            }`}
-          >
-            {actionType === "join" ? "Join" : "Remove"}
-          </button>
-        </div>
+    <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden p-4">
+      <div className="relative h-40">
+        <img
+          src={courseData.imageUrl || DefaultImage}
+          alt={courseData.title}
+          className="w-full h-full object-cover"
+        />
+        {isCompleted && (
+          <CheckCircle className="absolute bottom-2 right-2 w-6 h-6 text-green-500" />
+        )}
       </div>
+
+      <h3 className="font-bold text-lg mt-2">{courseData.title}</h3>
+
+      <div className="w-full bg-gray-200 rounded-full h-2 my-2">
+        <div
+          className={`h-2 rounded-full ${isCompleted ? "bg-green-500" : "bg-blue-500"}`}
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      <div className="flex gap-2 mt-2">
+        <button className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg flex items-center justify-center gap-2">
+          <Play className="w-4 h-4" /> {isCompleted ? "Review" : "Continue"}
+        </button>
+        <button
+          onClick={() => setConfirm(true)}
+          className="bg-red-50 hover:bg-red-100 text-red-600 py-2 px-4 rounded-lg flex items-center justify-center"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+      </div>
+
+      {confirm && (
+        <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-red-600 mb-2">Remove "{courseData.title}"?</p>
+          <div className="flex justify-end gap-2">
+            <button onClick={() => setConfirm(false)} className="px-3 py-1 bg-gray-200 rounded">Cancel</button>
+            <button
+              onClick={() => { dispatch(removeCourse(courseData.id)); setConfirm(false); }}
+              className="px-3 py-1 bg-red-500 text-white rounded"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default ConfirmModal;
+export default DashboardCourseCard;

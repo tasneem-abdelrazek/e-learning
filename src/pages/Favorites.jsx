@@ -1,3 +1,80 @@
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Heart } from "lucide-react";
+import { toggleFavorite } from "../store/slices/favoritesSlice";
+import CardActions from "../components/CourseCard/CardActions";
+import DefaultImage from "../assets/course_not_found_icon.png";
+
 export default function Favorites() {
-  return <h1 className="text-center mt-10 text-2xl">Favorites Page (Coming Soon)</h1>;
+  const favorites = useSelector((state) => state.favorites.favorites);
+  const dispatch = useDispatch();
+
+  const handleRemoveFavorite = (course) => {
+    dispatch(toggleFavorite(course));
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-8">
+      {/* Header */}
+      <div className="text-center mb-12">
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <Heart className="w-8 h-8 text-red-500 fill-red-500" />
+          <h1 className="text-4xl font-bold text-gray-800">My Favorites</h1>
+        </div>
+        <p className="text-gray-600 text-lg">
+          {favorites.length} course{favorites.length !== 1 ? 's' : ''} in your favorites
+        </p>
+      </div>
+
+      {/* Content */}
+      <div className="container mx-auto px-4">
+        {favorites.length === 0 ? (
+          // Empty State
+          <div className="text-center py-16">
+            <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <h2 className="text-2xl font-semibold text-gray-500 mb-2">No favorites yet</h2>
+            <p className="text-gray-400">Start adding courses to your favorites!</p>
+          </div>
+        ) : (
+          // Favorites Grid
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {favorites.map((course) => (
+              <div key={course.id} className="relative overflow-hidden rounded-2xl shadow-xl bg-gradient-to-br from-orange-200 via-orange-400 to-orange-400 hover:scale-105 transition-transform duration-300 group w-84 h-96 mx-auto">
+                <div className="relative h-60 overflow-hidden rounded-t-2xl">
+                  <img
+                    src={course.imageUrl || DefaultImage}
+                    alt={course.title || "Untitled"}
+                    className="w-full h-full object-cover rounded-t-2xl"
+                  />
+
+                  {course.category && (
+                    <div className="absolute top-0 left-0 px-5 py-2 bg-blue-600 text-white font-bold z-10 rounded-tl-2xl rounded-br-2xl">
+                      {course.category}
+                    </div>
+                  )}
+
+                  {course.price != null && (
+                    <div className="absolute top-0 right-0 px-5 py-2 bg-purple-600 text-white font-bold z-10 rounded-tr-2xl rounded-bl-2xl">
+                      {course.price == 0 ? "Free" : `$${course.price}`}
+                    </div>
+                  )}
+                </div>
+
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-orange-500/90 to-transparent text-white p-4 transform translate-y-2/3 group-hover:translate-y-0 transition-transform duration-300 h-40">
+                  <h3 className="text-lg font-bold mb-2 truncate">{course.title}</h3>
+                  <p className="text-sm mb-3 opacity-90 line-clamp-2">{course.description}</p>
+
+           
+                  <CardActions 
+                    courseData={course} 
+                    showOnly={['details', 'favorite']}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }

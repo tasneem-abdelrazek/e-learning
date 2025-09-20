@@ -7,7 +7,6 @@ import VideoCard from "../CourseCard/VideoCard";
 import en from "../../Local/en";
 import ar from "../../Local/ar";
 
-// eslint-disable-next-line no-unused-vars
 function CoursesSection({ limitCount, showFilter = true, searchTerm = "", showPagination = true }) {
   const lang = useSelector((state) => state.lang.language);
   const content = lang === "en" ? en : ar;

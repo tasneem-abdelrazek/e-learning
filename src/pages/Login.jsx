@@ -5,14 +5,8 @@ import { setUser } from "../store/slices/authSlice";
 import { auth, db } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import en from "../Local/en";
-import ar from "../Local/ar";
-import { useSelector } from "react-redux";
 
 function Login() {
-    const lang = useSelector((state) => state.lang.language);
-    const content = lang === "en" ? en : ar;
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -30,16 +24,16 @@ function Login() {
         if (e.target.name === "email") {
             setEmail(e.target.value);
             e.target.value.length === 0
-                ? setEmailError(content.email_required)
+                ? setEmailError("Email is required")
                 : emailRegex.test(e.target.value) === false
-                    ? setEmailError(content.email_format)
+                    ? setEmailError('Email should be like "example@xxxx.com"')
                     : setEmailError("");
         } else {
             setPassword(e.target.value);
             e.target.value.length === 0
-                ? setPasswordError(content.password_required)
+                ? setPasswordError("Password is required")
                 : e.target.value.length < 8
-                    ? setPasswordError(content.password_length)
+                    ? setPasswordError("Password must be more than 8 characters")
                     : setPasswordError("");
         }
     };
@@ -79,17 +73,16 @@ function Login() {
                     }
 
                 } else {
-                    setLoginError(content.user_not_found);
+                    setLoginError("User data not found in Firestore");
                 }
             } catch (error) {
                 console.error("Error logging in:", error);
-                setLoginError(content.invalid_credentials);
+                setLoginError("Invalid email or password");
             }
 
         setEmail("");
         setPassword("");
     };
-
 
 
     return (
@@ -98,12 +91,12 @@ function Login() {
                 <div className="flex flex-col lg:flex-row w-full max-w-6xl overflow-hidden bg-white shadow-2xl rounded-3xl">
                     {/* Left Side */}
                     <div className="lg:w-1/2 p-12 hidden lg:flex flex-col items-center justify-center bg-gradient-to-br from-[#FFC000] to-[#FF8A00]">
-                        <h1 className="mt-8 text-6xl font-bold text-white text-center">{content.learnix}</h1>
+                        <h1 className="mt-8 text-6xl font-bold text-white text-center">Learnix</h1>
                         <h2 className="mt-8 text-4xl font-bold text-white text-center">
-                            {content.welcome_back}
+                            Welcome Back!
                         </h2>
                         <p className="mt-4 text-white text-center text-lg">
-                            {content.login_continue}
+                            Log in to continue your learning journey.
                         </p>
                     </div>
 
@@ -111,17 +104,17 @@ function Login() {
                     <div className="lg:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center">
                         <div className="text-center lg:text-left">
                             <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800">
-                                {content.login}
+                                Log In
                             </h1>
                             <p className="mt-2 text-gray-600">
-                                {content.no_account} <Link to="/register" className="text-[#FF8A00] hover:underline font-semibold">{content.signup}</Link>
+                                Don't have an account? <Link to="/register" className="text-[#FF8A00] hover:underline font-semibold">Sign Up</Link>
                             </p>
                         </div>
 
                         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
                             {/* Email */}
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">{content.email}</label>
+                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                                 <input
                                     id="email"
                                     type="text"
@@ -135,7 +128,7 @@ function Login() {
 
                             {/* Password */}
                             <div>
-                                <label htmlFor="password" className="block text-sm font-medium text-gray-700">{content.password}</label>
+                                <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
                                 <div className="flex w-full">
                                     <input
                                         id="password"
@@ -150,7 +143,7 @@ function Login() {
                                         className="px-3 py-2 mt-1 rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500-5"
                                         onClick={() => setShowPassword(!showPassword)}
                                     >
-                                        {showPassword ? content.hide : content.show}
+                                        {showPassword ? "Hide" : "Show"}
                                     </button>
                                 </div>
                                 <p className="text-red-500">{passwordError}</p>
@@ -165,7 +158,7 @@ function Login() {
                                 type="submit"
                                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded shadow-sm text-sm font-medium text-white bg-[#FFC000] hover:bg-[#FF8A00] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all"
                             >
-                                {content.login}
+                                Login
                             </button>
                         </form>
                     </div>
