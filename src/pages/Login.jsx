@@ -69,7 +69,7 @@ function Login() {
                     if (userData.role === "admin") {
                         navigate("/admin/dashboard");
                     } else {
-                        navigate("/");
+                        navigate("/courses");
                     }
 
                 } else {
