@@ -13,7 +13,7 @@ const VideoCard = ({
   showHeart = true,
 }) => {
   return (
-    <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-white bg-gradient-to-br from-orange-200 via-orange-400 to-orange-400 transition-transform duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white group w-84 h-96 mx-auto">
+    <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-white bg-gradient-to-br from-orange-200 via-orange-400 to-orange-400 transition-transform duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white group w-full h-96 mx-auto">
       
       {/* Video or Image */}
       {(videoUrl || image) && (

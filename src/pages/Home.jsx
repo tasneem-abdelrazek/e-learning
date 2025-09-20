@@ -21,11 +21,11 @@ function Home() {
 
       <CTASection />
 
-        <HeroSection title={`${content.successStories}`} description={`${content.platformDescription}`} buttons={[{ text: `${content.discover}` }]} height="80vh" />
+        <HeroSection title={`${content.successStories}`} description={`${content.platformDescription}`} buttons={[{ text: `${content.discover}` }]} height="60vh" />
 
         <div className='bg-white'>
           <h1 className='gradient-text text-center' style={{ fontWeight: "900" }}>{content.courses}</h1>
-          <CoursesSection limitCount={6} showFilter={false}/>
+          <CoursesSection limitCount={6} showFilter={false} showPagination={false}/>
           <div className='flex justify-center pb-10'>
             <Button text={`${content.exploreMoreCourses}`} variant='gradientOrangeHero' onClick={() => navigate("/login")}/>
           </div>

@@ -3,16 +3,22 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../firebase";
 import VideoCard from "../CourseCard/VideoCard";
 import DefaultImage from "../../assets/course_not_found_icon.png";
+import { useSelector } from "react-redux";
+import en from "../../Local/en";
+import ar from "../../Local/ar";
 
-function CoursesSection({ limitCount, showFilter = true, searchTerm = "" }) {
+function CoursesSection({ limitCount, showFilter = true, searchTerm = "", showPagination = true }) {
+  const lang = useSelector((state) => state.lang.language);
+  const content = lang === "en" ? en : ar;
+
   const [courses, setCourses] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedPrice, setSelectedPrice] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const coursesPerPage = 6; // عدد الكورسات في كل صفحة
+  const coursesPerPage = 8;
 
-  const categories = ["All", "Web Development", "Marketing", "Design"];
+  const categories = ["All", "Programming", "Business", "Marketing", "Design"];
   const priceRanges = [
     { label: "Free", min: 0, max: 0 },
     { label: "$1 - $50", min: 1, max: 50 },
@@ -57,13 +63,12 @@ function CoursesSection({ limitCount, showFilter = true, searchTerm = "" }) {
       }
 
       setCourses(coursesArray);
-      setCurrentPage(1); // رجع للصفحة الأولى بعد أي فلترة
+      setCurrentPage(1); 
     };
 
     fetchCourses();
   }, [selectedCategory, selectedPrice, searchTerm]);
 
-  // حساب الكورسات اللي هتظهر في الصفحة الحالية
   const indexOfLastCourse = currentPage * coursesPerPage;
   const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
   const currentCourses = courses.slice(indexOfFirstCourse, indexOfLastCourse);
@@ -79,11 +84,10 @@ function CoursesSection({ limitCount, showFilter = true, searchTerm = "" }) {
             {categories.map((cat) => (
               <button
                 key={cat}
-                className={`px-4 py-2 rounded-full font-medium transition ${
-                  selectedCategory === cat
+                className={`px-4 py-2 rounded-full font-medium transition ${selectedCategory === cat
                     ? "bg-orange-500 text-white"
                     : "bg-gray-200 text-gray-700 hover:bg-orange-100"
-                }`}
+                  }`}
                 onClick={() => setSelectedCategory(cat)}
               >
                 {cat}
@@ -100,7 +104,7 @@ function CoursesSection({ limitCount, showFilter = true, searchTerm = "" }) {
               }
               className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 focus:ring-2 focus:ring-orange-500"
             >
-              <option value="">All Prices</option>
+              <option value="">{content.allPrices}</option>
               {priceRanges.map((range) => (
                 <option key={range.label} value={range.label}>
                   {range.label}
@@ -112,7 +116,8 @@ function CoursesSection({ limitCount, showFilter = true, searchTerm = "" }) {
       )}
 
       {/* Courses Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
         {currentCourses.length > 0 ? (
           currentCourses.map((course) => (
             <VideoCard
@@ -133,21 +138,21 @@ function CoursesSection({ limitCount, showFilter = true, searchTerm = "" }) {
       </div>
 
       {/* Pagination */}
-      {totalPages > 1 && (
+      {showPagination && totalPages > 1 && (
         <div className="flex justify-center mt-8 gap-3">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`px-4 py-2 rounded-full border ${
-                page === currentPage ? "bg-orange-500 text-white" : "bg-white text-gray-700"
-              }`}
+              className={`px-4 py-2 rounded-full border ${page === currentPage ? "bg-orange-500 text-white" : "bg-white text-gray-700"
+                }`}
             >
               {page}
             </button>
           ))}
         </div>
       )}
+
     </div>
   );
 }
