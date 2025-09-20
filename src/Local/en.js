@@ -1,0 +1,40 @@
+
+const en = {
+    "home": "Home Page",
+    "signup": "Register",
+    "login": "Login",
+    "en": "English",
+    "ar": "العربية",
+    "name": "Name",
+    "app_name": "Movies",
+    "email": "Email Address",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "username": "Username",
+    "searchCourses": "Search for Courses i.e buissness",
+    "successStories": "Success Stories From Our Students WorldWide!",
+    "accessResources": "Get Access to Unlimited Educational Resources. Everywhere, Everytime!",
+    "premiumAccess": "Premium access to more than 10,000 resources ranging from courses, events, etc.",
+    "getAccess": "Get Access",
+    "platformDescription": "Learnix is an online education platform that delivers video courses, programs and resources for Individuals, Advertising & Media Specialists, Online Marketing Professionals, Freelancers and anyone looking to pursue a career in Digital Marketing, Accounting, Web Development, Programming, Multimedia and CAD Design.",
+    "discover": "Discover",
+    "courses": "Courses",
+    "exploreMoreCourses": "Explore More Courses",
+    "unlimitedAccess": "Unlimited Access",
+    "oneSubscription": "One Subscription, Unlimited Access",
+    "expertTeachers": "Expert Teachers",
+    "expertTeachersDesc": "Learn from industry experts who are passionate about teaching",
+    "learnAnywhere": "Learn Anywhere",
+    "learnAnywhereDesc": "Switch between your computer, tablet, or mobile device",
+    "learnSkill": "Learn A Skill.",
+    "buildPortfolio": "Build Your Portfolio.",
+    "getHired": "Get Hired!",
+    "description": `Learnix is an online education platform that delivers video 
+                    courses, programs and resources for Individual, Advertising & Media Specialist,
+                    Online Marketing Professionals, Freelancers and anyone looking to pursue a career
+                    in digital marketing, Accounting, Web development, Programming, Multimedia and CAD design.`,
+    "browseTutorials": "Browse Thousands of Our Video Tutorials Curated Only for You.",
+    "accessPremium": "Access all tutorials and resources when you become a premium member of",
+}
+
+export default en

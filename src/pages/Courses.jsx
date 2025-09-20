@@ -1,19 +1,25 @@
 import React, { useState } from "react";
 import HeroSection from "../components/HeroSection/HeroSection";
 import CoursesSection from "../components/CoursesSection/CoursesSection";
+import en from "../Local/en";
+import ar from "../Local/ar";
+import { useSelector } from "react-redux";
 
 export default function Courses() {
   const [searchTerm, setSearchTerm] = useState("");
+  const lang = useSelector((state) => state.lang.language);
 
+  const content = lang === "en" ? en : ar;
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       {/* Hero Section */}
       <div className="mt-6">
         <HeroSection
-          title="Browse Thousands of Our Video Tutorials Curated Only for you."
+          title={content.browseTutorials}
+          height="60vh"
           description={
             <>
-              Access all tutorials and resources when you become a premium member of{" "}
+              {content.accessPremium}{" "}
               <span className="font-bold">Learnix</span>
             </>
           }
@@ -34,7 +40,7 @@ export default function Courses() {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search for Courses i.e buissness"
+              placeholder= {content.searchCourses}
               className="w-full h-20 px-10 py-3
                 border-b-4 border-white
                 focus:border-yellow-300 focus:outline-none
