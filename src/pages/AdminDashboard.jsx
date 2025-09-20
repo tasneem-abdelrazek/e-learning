@@ -105,7 +105,7 @@ export default function AdminDashboard() {
   // Reset price if Free
   useEffect(() => {
     if (form.tag === "Free") {
-      setForm((prev) => ({ ...prev, price: "" }));
+      setForm((prev) => ({ ...prev, price: 0 }));
       setErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors.price;
@@ -164,6 +164,13 @@ export default function AdminDashboard() {
       return;
     }
     setErrors({});
+
+    // if course tag is free, set price = 0
+    const courseData = {
+      ...form,
+      price: form.tag === "Free" ? 0 : form.price,
+    };
+
     try {
       if (editingId) {
         await updateCourse(editingId, form);
@@ -185,7 +192,7 @@ export default function AdminDashboard() {
         description: "",
         category: "Programming",
         tag: "Free",
-        price: "",
+        price: 0,
         instructor: "",
         bio: "",
         email: "",
@@ -430,7 +437,7 @@ export default function AdminDashboard() {
                   <td className="p-2 border">{course.category}</td>
                   <td className="p-2 border">{course.tag}</td>
                   <td className="p-2 border">
-                    {course.tag === "Paid" ? course.price : "Free"}
+                    {course.tag === "Paid" ? course.price : 0}
                   </td>
                   <td className="p-2 border">{course.instructor}</td>
                   <td className="p-2 border">{course.bio}</td>
@@ -499,19 +506,18 @@ export default function AdminDashboard() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center">
             <h2
-              className={`text-xl font-bold mb-4 ${
-                popup.type === "success"
+              className={`text-xl font-bold mb-4 ${popup.type === "success"
                   ? "text-green-600"
                   : popup.type === "error"
-                  ? "text-red-600"
-                  : "text-yellow-600"
-              }`}
+                    ? "text-red-600"
+                    : "text-yellow-600"
+                }`}
             >
               {popup.type === "confirm"
                 ? "Are you sure?"
                 : popup.type === "success"
-                ? "Success"
-                : "Error"}
+                  ? "Success"
+                  : "Error"}
             </h2>
             <p className="mb-6">{popup.message}</p>
 
