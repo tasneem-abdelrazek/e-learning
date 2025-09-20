@@ -1,59 +1,38 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import DashboardCard from "../components/dashbord/DashBordCard";
+import { removeJoinedCourse } from "../store/slices/joinedCoursesSlice";
 
 const Dashboard = () => {
-  const [courses, setCourses] = useState([
-    {
-      id: "1",
-      title: "React Basics",
-      description: "Learn the fundamentals of React.",
-      type: "Free",
-      image: "https://via.placeholder.com/300x200",
-      progress: 30,
-    },
-    {
-      id: "2",
-      title: "Advanced JavaScript",
-      description: "Deep dive into JavaScript.",
-      type: "Paid",
-      videoUrl: "video.mp4",
-      progress: 70,
-    },
-    {
-      id: "3",
-      title: "CSS Animations",
-      description: "Make your UI alive with animations.",
-      type: "Free",
-      progress: 50,
-    },
-  ]);
+  const dispatch = useDispatch();
 
-  const handleJoin = (courseId) => {
-    console.log("Joined course:", courseId);
-    setCourses((prev) =>
-      prev.map((c) =>
-        c.id === courseId
-          ? { ...c, progress: Math.min(c.progress + 10, 100) }
-          : c
-      )
-    );
-  };
+  // joincourses
+  const courses = useSelector((state) => state.joinedCourses.joinedCourses);
 
+  // Remove
   const handleUnjoin = (courseId) => {
-    console.log("Removed course:", courseId);
-    setCourses((prev) => prev.filter((c) => c.id !== courseId));
+    dispatch(removeJoinedCourse(courseId));
   };
 
   return (
     <div className="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {courses.map((course) => (
-        <DashboardCard
-          key={course.id}
-          course={course}
-          onJoin={handleJoin}
-          onUnjoin={handleUnjoin}
-        />
-      ))}
+      {courses.length === 0 ? (
+        <p className="text-gray-500 text-lg">No joined courses yet.</p>
+      ) : (
+        courses.map((course) => (
+          <DashboardCard
+            key={course.id}
+            id={course.id}
+            title={course.title}
+            image={course.image}
+            price={course.price}
+            category={course.category}
+            description={course.description}
+
+            onUnjoin={handleUnjoin}
+          />
+        ))
+      )}
     </div>
   );
 };

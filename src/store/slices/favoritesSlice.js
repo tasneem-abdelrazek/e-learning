@@ -3,17 +3,17 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 // intial
-const inatialState = {
+const initialState = {
     favorites: [],
 };
 
 //crerate slice
 const favSlice = createSlice({
     name: " favorites",
-    inatialState,
+    initialState,
     // reducer
     reducers: {
-        toggelFavorite: (state, action) => {
+        toggleFavorite: (state, action) => {
             const exists = state.favorites.find(
                 (course) => course.id === action.payload.id
             );

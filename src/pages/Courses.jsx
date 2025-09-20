@@ -4,15 +4,16 @@ import { db } from "../firebase";
 import VideoCard from "../components/CourseCard/VideoCard";
 import HeroSection from "../components/HeroSection/HeroSection";
 import CoursesSection from "../components/CoursesSection/CoursesSection";
+import { useDispatch, useSelector } from "react-redux";
+import { setCourses, setLoading, setError } from "../store/slices/coursesSlice";
 
 export default function Courses() {
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+  const dispatch = useDispatch();
+  const { courses, loading, error } = useSelector((state) => state.courses);
   const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
     const fetchCourses = async () => {
-      setLoading(true);
+      dispatch(setLoading(true));
       try {
         const coursesCol = collection(db, "courses");
         const snapshot = await getDocs(coursesCol);
@@ -26,28 +27,25 @@ export default function Courses() {
             price: data.price || "",
             category: data.category || "",
             createdAt: data.createdAt || null,
-            description: data.description || "", // أخدت من عندك
+            description: data.description || "",
           };
         });
 
-        setCourses(coursesList);
-      } catch (error) {
-        console.error("Error fetching courses:", error);
+        dispatch(setCourses(coursesList));
+      } catch (err) {
+        dispatch(setError(err.message));
       } finally {
-        setLoading(false);
+        dispatch(setLoading(false));
       }
     };
 
     fetchCourses();
-  }, []);
+  }, [dispatch]);
 
-  if (loading) {
-    return <p className="text-center mt-6 text-sm">Loading courses...</p>;
-  }
+  if (loading) return <p>Loading courses...</p>;
+  if (error) return <p className="text-red-500">Error: {error}</p>;
+  if (courses.length === 0) return <p>No courses available.</p>;
 
-  if (courses.length === 0) {
-    return <p className="text-center mt-6 text-sm">No courses available.</p>;
-  }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -143,4 +141,4 @@ export default function Courses() {
       <div className="mt-12"></div>
     </div>
   );
-}
+} 

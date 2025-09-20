@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import React from "react";
-import CardActions from "./CardActions"; 
+import CardActions from "./CardActions";
 
 const VideoCard = ({
   id = "1",
@@ -11,10 +11,11 @@ const VideoCard = ({
   description = "Learn the fundamentals of web development",
   price = "99",
   showHeart = true,
+  showActions = true,
 }) => {
   return (
     <div className="relative overflow-hidden rounded-2xl shadow-xl shadow-white bg-gradient-to-br from-orange-200 via-orange-400 to-orange-400 transition-transform duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white group w-84 h-96 mx-auto">
-      
+
       {/* Video or Image */}
       {(videoUrl || image) && (
         <div className="relative h-60 overflow-hidden rounded-t-2xl">
@@ -56,8 +57,10 @@ const VideoCard = ({
         {description && (
           <p className="text-sm mb-3 opacity-90 line-clamp-2">{description}</p>
         )}
+        {showActions && (
+          <CardActions id={id} showHeart={showHeart} />
+        )}
 
-        <CardActions id={id} showHeart={showHeart} />
       </div>
     </div>
   );
