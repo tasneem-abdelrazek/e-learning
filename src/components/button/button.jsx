@@ -46,7 +46,7 @@ export default function Button({
     black: "bg-black text-white hover:bg-gray-800",
     blackOutline: "bg-transparent text-black border border-black hover:bg-black hover:text-white",
     lightYellow: `
-    bg-[#FFF7DF] text-[#FFC000] text-xs rounded-full p-2 px-4 
+    bg-[#FFF7DF] text-[#FFC000] text-s rounded-full p-2 px-4 
     hover:bg-[#ffeebf] transition
   `,
   gradientOrangeHero: `

@@ -37,7 +37,7 @@ export default function Navbar({ currentUser, onLogout }) {
           </div>
 
           <div className="px-4"> <Button
-            text={lang === "en" ? content.en : content.ar}
+            text={lang === "en" ? content.ar : content.en}
             variant="gradientOrange"
             shape="rounded"
             onClick={() => dispatch(toggleLanguage())}

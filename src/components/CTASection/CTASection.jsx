@@ -57,7 +57,7 @@ const CTASection = () => {
         </div>
 
         {/* Content */}
-        <div className="w-full md:w-1/2 p-6 ">
+        <div className="w-full md:w-2/3 p-6 ">
           <div className="gradient-text">
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl">{content.learnSkill}.</p>
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl">{content.buildPortfolio}.</p>

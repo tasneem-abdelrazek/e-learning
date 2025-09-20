@@ -21,11 +21,9 @@ function Home() {
 
       <CTASection />
 
-        <br /><br /><br />
         <HeroSection title={`${content.successStories}`} description={`${content.platformDescription}`} buttons={[{ text: `${content.discover}` }]} height="80vh" />
 
         <div className='bg-white'>
-          <br />
           <h1 className='gradient-text text-center' style={{ fontWeight: "900" }}>{content.courses}</h1>
           <CoursesSection limitCount={6} showFilter={false}/>
           <div className='flex justify-center pb-10'>
