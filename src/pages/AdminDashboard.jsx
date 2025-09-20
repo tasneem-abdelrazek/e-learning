@@ -143,6 +143,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchCourses(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Validate all fields before submit
