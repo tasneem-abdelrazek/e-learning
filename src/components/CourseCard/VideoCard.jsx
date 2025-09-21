@@ -2,7 +2,7 @@ import React from "react";
 import CardActions from "./CardActions";
 import DefaultImage from "../../assets/course_not_found_icon.png";
 
-const VideoCard = ({ courseData }) => {
+const VideoCard = ({ courseData, actionConfige }) => {
   if (!courseData) return null; // حماية لو الداتا مش موجودة
 
   return (
@@ -31,7 +31,7 @@ const VideoCard = ({ courseData }) => {
         <h3 className="text-lg font-bold mb-2 truncate">{courseData.title}</h3>
         <p className="text-sm mb-3 opacity-90 line-clamp-2">{courseData.description}</p>
 
-        <CardActions courseData={courseData} />
+        <CardActions courseData={courseData} {...actionConfige} />
       </div>
     </div>
   );

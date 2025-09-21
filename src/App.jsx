@@ -14,7 +14,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Courses from "./pages/Courses";
 import CourseDetails from "./pages/CourseDetails";
 import Favorites from "./pages/Favorites";
-import Wishlist from "./pages/Wishlist";
+import Wishlist from "./pages/Favorites"
 import Dashboard from "./pages/Dashboard";
 
 import Navbar from "./components/Navbar/Navbar";
@@ -63,48 +63,48 @@ function App() {
   }
 
   return (
-    
+
     <Router>
       <div className="min-h-screen flex flex-col">
-      <Navbar currentUser={user} onLogout={handleLogout} />
+        <Navbar currentUser={user} onLogout={handleLogout} />
 
-      <main className="flex-grow">
-      <div className="mx-auto px-4">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+        <main className="flex-grow">
+          <div className="mx-auto px-4">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
 
-          {/* Main Pages */}
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/details/:id" element={<CourseDetails />} />
-          <Route
-            path="/favorites"
-            element={user ? <Favorites /> : <Navigate to="/login" replace />}
-          />
-          <Route
-            path="/wishlist"
-            element={user ? <Wishlist /> : <Navigate to="/login" replace />}
-          />
-          <Route
-            path="/dashboard"
-            element={user ? <Dashboard /> : <Navigate to="/login" replace />}
-          />
+              {/* Main Pages */}
+              <Route path="/courses" element={<Courses />} />
+              <Route path="/details/:id" element={<CourseDetails />} />
+              //<Route
+                path="/favorites"
+                element={user ? <Favorites /> : <Navigate to="/login" replace />}
+              />
+              <Route
+                path="/wishlist"
+                element={user ? <Wishlist /> : <Navigate to="/login" replace />}
+              />
+              <Route
+                path="/dashboard"
+                element={user ? <Dashboard /> : <Navigate to="/login" replace />}
+              />
 
-          {/* Admin Dashboard */}
-          <Route
-            path="/admin/dashboard"
-            element={isAdmin ? <AdminDashboard /> : <Navigate to="/login" replace />}
-          />
+              {/* Admin Dashboard */}
+              <Route
+                path="/admin/dashboard"
+                element={isAdmin ? <AdminDashboard /> : <Navigate to="/login" replace />}
+              />
 
-        
 
-        {/* Catch-all */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-        </div>
+
+              {/* Catch-all */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </div>
         </main>
-      <Footer />
+        <Footer />
       </div>
     </Router>
   );
