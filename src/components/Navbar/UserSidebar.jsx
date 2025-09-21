@@ -2,8 +2,13 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { User, Heart, BookmarkPlus, BookOpen, LogOut, X } from "lucide-react";
 import { clearUser } from "../../store/slices/authSlice";
+import en from "../../Local/en";
+import ar from "../../Local/ar";
 
 const UserSidebar = ({ isOpen, onClose }) => {
+  const lang = useSelector((state) => state.lang.language);
+  const content = lang === "en" ? en : ar;
+
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.auth.currentUser);
 
@@ -11,15 +16,15 @@ const UserSidebar = ({ isOpen, onClose }) => {
 
   if (currentUser?.role === "admin") {
     menuItems = [
-      { id: 2, name: "Courses", icon: BookOpen, path: "/courses", color: "text-green-800", hover: "hover:bg-green-100" },
-      { id: 5, name: "Admin Dashboard", icon: User, path: "/admin/dashboard", color: "text-yellow-800", hover: "hover:bg-yellow-100" },
+      { id: 2, name: content.courses_nav, icon: BookOpen, path: "/courses", color: "text-green-800", hover: "hover:bg-green-100" },
+      { id: 5, name: content.admin_dashboard, icon: User, path: "/admin/dashboard", color: "text-yellow-800", hover: "hover:bg-yellow-100" },
     ];
   } else {
     menuItems = [
-      { id: 1, name: "Dashboard", icon: User, path: "/dashboard", color: "text-blue-800", hover: "hover:bg-blue-100" },
-      { id: 2, name: "Courses", icon: BookOpen, path: "/courses", color: "text-green-800", hover: "hover:bg-green-100" },
-      { id: 3, name: "Favorites", icon: Heart, path: "/favorites", color: "text-red-700", hover: "hover:bg-red-100" },
-      { id: 4, name: "Wishlist", icon: BookmarkPlus, path: "/wishlist", color: "text-purple-800", hover: "hover:bg-purple-100" },
+      { id: 1, name: content.dashboard_user, icon: User, path: "/dashboard", color: "text-blue-800", hover: "hover:bg-blue-100" },
+      { id: 2, name: content.courses_nav, icon: BookOpen, path: "/courses", color: "text-green-800", hover: "hover:bg-green-100" },
+      { id: 3, name: content.favorite, icon: Heart, path: "/favorites", color: "text-red-700", hover: "hover:bg-red-100" },
+      { id: 4, name: content.wishlist, icon: BookmarkPlus, path: "/wishlist", color: "text-purple-800", hover: "hover:bg-purple-100" },
     ];
   }
 
@@ -53,7 +58,7 @@ const UserSidebar = ({ isOpen, onClose }) => {
               <User size={36} className="text-white" />
             </div>
             <h3 className="text-xl font-bold text-gray-800">{currentUser?.name || "User"}</h3>
-            <p className="text-sm text-gray-500">Welcome back!</p>
+            <p className="text-sm text-gray-500">{content.welcome_back}</p>
           </div>
         </div>
 
@@ -82,7 +87,7 @@ const UserSidebar = ({ isOpen, onClose }) => {
             className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-red-500 hover:bg-red-100 text-red-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
           >
             <LogOut size={20} />
-            <span className="font-medium ">Logout</span>
+            <span className="font-medium ">{content.log_out}</span>
           </button>
         </div>
       </div>

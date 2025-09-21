@@ -48,10 +48,10 @@ export default function Navbar({ currentUser, onLogout }) {
             {!currentUser ? (
               <>
                 <Link to="/register">
-                  <Button text="Sign Up" variant="gradientOrange" shape="rounded" />
+                  <Button text={content.signup} variant="gradientOrange" shape="rounded" />
                 </Link>
                 <Link to="/login">
-                  <Button text="Login" variant="gradientOrange" shape="rounded" />
+                  <Button text={content.login} variant="gradientOrange" shape="rounded" />
                 </Link>
               </>
             ) : (
