@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { User, Heart, BookmarkPlus, BookOpen, LogOut, X } from "lucide-react";
-import { clearUser } from "../../store/slices/authSlice"; 
+import { clearUser } from "../../store/slices/authSlice";
 
 const UserSidebar = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
