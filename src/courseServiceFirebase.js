@@ -21,8 +21,13 @@ export const addCourse = async (courseData) => {
     title: courseData.title,
     description: courseData.description,
     category: courseData.category,
+    tag: courseData.tag,
     price: courseData.price || 0, 
+    instructor: courseData.instructor,
+    bio: courseData.bio,
+    email: courseData.email,
     imageUrl: courseData.imageUrl || "",
+    videoUrl: courseData.videoUrl || "",
     createdAt: serverTimestamp(),
   });
 };

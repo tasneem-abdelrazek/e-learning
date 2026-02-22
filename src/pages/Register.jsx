@@ -5,8 +5,14 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { setUser } from "../store/slices/authSlice";
+import en from "../Local/en";
+import ar from "../Local/ar";
+import { useSelector } from "react-redux";
 
 function Register() {
+    const lang = useSelector((state) => state.lang.language);
+    const content = lang === "en" ? en : ar;
+
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
@@ -32,34 +38,34 @@ function Register() {
         if (e.target.name === "name") {
             setName(e.target.value);
             e.target.value.length === 0
-                ? setNameError("Name is required")
+                ? setNameError(content.name_required)
                 : setNameError("");
         }
 
         if (e.target.name === "email") {
             setEmail(e.target.value);
             e.target.value.length === 0
-                ? setEmailError("Email is required")
+                ? setEmailError(content.email_required)
                 : emailRegex.test(e.target.value) === false
-                    ? setEmailError("Invalid email format")
+                    ? setEmailError(content.email_format)
                     : setEmailError("");
         }
 
         if (e.target.name === "password") {
             setPassword(e.target.value);
             e.target.value.length === 0
-                ? setPasswordError("Password is required")
+                ? setPasswordError(content.password_required)
                 : passwordRegex.test(e.target.value) === false
-                    ? setPasswordError("Password format error")
+                    ? setPasswordError(content.password_rules)
                     : setPasswordError("");
         }
 
         if (e.target.name === "confirmPassword") {
             setConfirmPassword(e.target.value);
             e.target.value.length === 0
-                ? setConfirmPasswordError("Confirm Password is required")
+                ? setConfirmPasswordError(content.confirm_password_required)
                 : e.target.value !== password
-                    ? setConfirmPasswordError("Passwords do not match")
+                    ? setConfirmPasswordError(content.password_mismatch)
                     : setConfirmPasswordError("");
         }
     };
@@ -116,97 +122,131 @@ function Register() {
     };
 
     return (
-        <div>
-            <h2>Sign Up</h2>
-            <form onSubmit={handleSubmit}>
-                {/* Name */}
-                <div>
-                    <label htmlFor="name">Name</label>
-                    <input
-                        id="name"
-                        type="text"
-                        value={name}
-                        onChange={handleForm}
-                        name="name"
-                        className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200"
-                    />
-                    <p>{nameError}</p>
-                </div>
-
-                {/* Email */}
-                <div>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        id="email"
-                        type="text"
-                        value={email}
-                        onChange={handleForm}
-                        name="email"
-                        className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200"
-                    />
-                    <p>{emailError}</p>
-                </div>
-
-                {/* Password */}
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <div>
-                        <input
-                            id="password"
-                            type={showPassword ? "text" : "password"}
-                            value={password}
-                            onChange={handleForm}
-                            name="password"
-                            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200"
-                        />
-                        <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? "🙈" : "👁️"}
-                        </button>
+        <>
+            <div className="min-h-70 bg-gray-50 flex items-center justify-center p-4">
+                <div className="flex flex-col lg:flex-row w-full max-w-6xl overflow-hidden bg-white shadow-2xl rounded-3xl">
+                    {/* Left Side */}
+                    <div className="lg:w-1/2 p-12 hidden lg:flex flex-col items-center justify-center bg-gradient-to-br from-[#FFC000] to-[#FF8A00]">
+                        <h1 className="mt-8 text-6xl font-bold text-white text-center">{content.learnix}</h1>
+                        <h2 className="mt-8 text-4xl font-bold text-white text-center">
+                            {content.welcome_register}
+                        </h2>
+                        <p className="mt-4 text-white text-center text-lg">
+                            {content.register_continue}
+                        </p>
                     </div>
-                    <p>{passwordError}</p>
-                </div>
 
-                {/* Confirm Password */}
-                <div>
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <div>
-                        <input
-                            id="confirmPassword"
-                            type={showPassword ? "text" : "password"}
-                            value={confirmPassword}
-                            onChange={handleForm}
-                            name="confirmPassword"
-                            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200"
-                        />
-                        <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? "🙈" : "👁️"}
-                        </button>
+                    {/* Right Side - Sign Up Form */}
+                    <div className="lg:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center">
+                        <div className="text-center lg:text-left">
+                            <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800">
+                                {content.create_account}
+                            </h1>
+                            <p className="mt-2 text-gray-600">
+                                {content.have_account}{" "} <Link to="/login" className="text-[#FF8A00] hover:underline font-semibold"> {content.login}</Link>
+
+                            </p>
+                        </div>
+                        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+
+                            {/* Name */}
+                            <div>
+                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">{content.name}</label>
+                                <input
+                                    id="name"
+                                    type="text"
+                                    value={name}
+                                    onChange={handleForm}
+                                    name="name"
+                                    className="px-3 py-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
+                                />
+                                <p className="text-red-500">{nameError}</p>
+                            </div>
+
+                            {/* Email */}
+                            <div>
+                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">{content.email}</label>
+                                <input
+                                    id="email"
+                                    type="text"
+                                    value={email}
+                                    onChange={handleForm}
+                                    name="email"
+                                    className="px-3 py-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
+                                />
+                                <p className="text-red-500">{emailError}</p>
+                            </div>
+
+                            {/* Password */}
+                            <div>
+                                <label htmlFor="password" className="block text-sm font-medium text-gray-700">{content.password}</label>
+                                <div className="flex w-full">
+                                    <input
+                                        id="password"
+                                        type={showPassword ? "text" : "password"}
+                                        value={password}
+                                        onChange={handleForm}
+                                        name="password"
+                                        className="px-3 py-2 mt-1 flex-1 rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="px-3 py-2 mt-1 rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500-5"
+                                    >
+                                        {showPassword ? content.hide : content.show}
+                                    </button>
+                                </div>
+                                <p className="text-red-500">{passwordError}</p>
+                            </div>
+
+                            {/* Confirm Password */}
+                            <div>
+                                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">{content.confirm_password}</label>
+                                <div className="flex w-full">
+                                    <input
+                                        id="confirmPassword"
+                                        type={showPassword ? "text" : "password"}
+                                        value={confirmPassword}
+                                        onChange={handleForm}
+                                        name="confirmPassword"
+                                        className="px-3 py-2 mt-1 flex-1 rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="px-3 py-2 mt-1 rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500-5"
+                                    >
+                                        {showPassword ? content.hide : content.show}
+                                    </button>
+                                </div>
+                                <p className="text-red-500">{confirmPasswordError}</p>
+                            </div>
+
+                            {/* Submit */}
+                            <button
+                                disabled={
+                                    emailError || nameError || passwordError || confirmPasswordError
+                                }
+                                type="submit"
+                                className="w-full flex justify-center py-2 px-4 border border-transparent rounded shadow-sm text-sm font-medium text-white bg-[#FFC000] hover:bg-[#FF8A00] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all"
+                            >
+                                {content.signup}
+                            </button>
+
+                        </form>
+
+                        <div className="mt-8 text-center">
+                            <p className="text-xs text-gray-500">
+                                {content.terms1}{" "} <a href="#" className="underline">{content.terms}</a> {" "}
+                                {content.and}{" "} <a href="#" className="underline">{content.privacy}</a>.
+                            </p>
+                        </div>
+
                     </div>
-                    <p>{confirmPasswordError}</p>
                 </div>
-
-                {/* Submit */}
-                <button
-                    disabled={
-                        emailError || nameError || passwordError || confirmPasswordError
-                    }
-                    type="submit"
-                    className="bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
-                >
-                    Register
-                </button>
-            </form>
-
-            <p>
-                Already have an account? <Link to="/login">Login</Link>
-            </p>
-        </div>
+            </div>
+        </>
     );
 }
 
